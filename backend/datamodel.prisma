@@ -1,0 +1,16 @@
+type User {
+  id: ID! @unique
+  name: String!
+}
+
+type Contest {
+  id: ID! @unique
+  name: String!
+  projects: [Project!]!
+}
+
+type Project {
+  id: ID! @unique
+  name: String!
+  contests: [Contest!]!
+}

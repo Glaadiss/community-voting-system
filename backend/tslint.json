@@ -1,0 +1,15 @@
+{
+  "defaultSeverity": "error",
+  "extends": ["tslint:recommended"],
+  "jsRules": {},
+  "rules": {
+    "quotemark": [true, "single"],
+    "arrow-parens": false,
+    "no-unused-variable": { "severity": "warning" }
+  },
+  "rulesDirectory": [],
+  "compileOnSave": true,
+  "linterOptions": {
+    "exclude": ["generated/prisma-client/*.ts"]
+  }
+}

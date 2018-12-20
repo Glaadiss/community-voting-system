@@ -1,0 +1,6 @@
+{
+  "editor.formatOnSave": true,
+  "tslint.autoFixOnSave": true,
+  "prettier.tslintIntegration": true,
+  "prettier.eslintIntegration": true
+}

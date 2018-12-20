@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "lib": ["es2016", "esnext.asynciterable"]
+  },
+  "exclude": ["generated/*.ts"],
+  "compileOnSave": true
+}
