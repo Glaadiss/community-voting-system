@@ -1,0 +1,27 @@
+type Query {
+  contests: [Contest!]!
+  contest(contestId: ID!): Contest
+}
+
+type Mutation {
+  createUser(name: String!): User
+  createContest(name: String!): Contest
+  addProjectsToContest(contestId: ID!, projectName: String!): Contest
+}
+
+type User {
+  id: ID!
+  name: String!
+}
+
+type Contest {
+  id: ID!
+  name: String!
+  projects: [Project!]!
+}
+
+type Project {
+  id: ID!
+  name: String!
+  contests: [Contest!]!
+}

@@ -5,7 +5,8 @@
   "rules": {
     "quotemark": [true, "single"],
     "arrow-parens": false,
-    "no-unused-variable": { "severity": "warning" }
+    "no-unused-variable": { "severity": "warning" },
+    "object-literal-sort-keys": false
   },
   "rulesDirectory": [],
   "compileOnSave": true,
