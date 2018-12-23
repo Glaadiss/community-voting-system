@@ -21,13 +21,19 @@ import MailIcon from '@material-ui/icons/Mail';
 import { Menu, MenuItem } from '@material-ui/core';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import styles from './styles';
-
+import auth from '../../services/auth/State';
+import { withRouter } from 'react-router-dom';
 function Layout(props) {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchor] = useState(null);
   function handleMenu(event) {
     event.persist();
     setAnchor(event.target);
+  }
+
+  function signout() {
+    handleClose();
+    auth.signout(() => props.history.push('/login'));
   }
 
   function handleDrawerOpen() {
@@ -90,8 +96,8 @@ function Layout(props) {
             open={openRightIcon}
             onClose={handleClose}
           >
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
             <MenuItem onClick={handleClose}>My account</MenuItem>
+            <MenuItem onClick={signout}>Wyloguj się!</MenuItem>
           </Menu>
         </Toolbar>
       </AppBar>
@@ -156,6 +162,7 @@ function Layout(props) {
 Layout.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(Layout);
+export default withStyles(styles, { withTheme: true })(withRouter(Layout));
