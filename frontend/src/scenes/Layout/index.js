@@ -25,7 +25,6 @@ import styles from './styles';
 function Layout(props) {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchor] = useState(null);
-
   function handleMenu(event) {
     event.persist();
     setAnchor(event.target);

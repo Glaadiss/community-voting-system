@@ -3,6 +3,7 @@ module.exports = {
   rules: {
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     'react/forbid-prop-types': false,
+    'arrow-parens': false,
   },
   env: {
     browser: true,
