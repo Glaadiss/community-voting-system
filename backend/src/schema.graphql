@@ -1,13 +1,13 @@
 type Query {
   contests: [Contest!]!
   contest(contestId: ID!): Contest
+  users: [User!]!
 }
 
 type Mutation {
-  createUser(name: String!): User
+  createUser(email: String!, password: String!, name: String): AuthPayload
   createContest(name: String!): Contest
   addProjectsToContest(contestId: ID!, projectName: String!): Contest
-  signup(email: String!, password: String!, name: String!): AuthPayload
   login(email: String!, password: String!): AuthPayload
 }
 
@@ -18,7 +18,10 @@ type AuthPayload {
 
 type User {
   id: ID!
-  name: String!
+  email: String!
+  role: String!
+  name: String
+  passwordHash: String!
 }
 
 type Contest {

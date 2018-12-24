@@ -212,8 +212,14 @@ export type ContestOrderByInput =
 export type UserOrderByInput =
   | "id_ASC"
   | "id_DESC"
+  | "email_ASC"
+  | "email_DESC"
+  | "role_ASC"
+  | "role_DESC"
   | "name_ASC"
   | "name_DESC"
+  | "passwordHash_ASC"
+  | "passwordHash_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -302,7 +308,10 @@ export interface ContestCreateInput {
 }
 
 export interface UserUpdateManyMutationInput {
+  email?: String;
+  role?: String;
   name?: String;
+  passwordHash?: String;
 }
 
 export interface ProjectCreateManyWithoutContestsInput {
@@ -331,6 +340,7 @@ export interface ContestUpdateInput {
 
 export type UserWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
+  email?: String;
 }>;
 
 export interface ProjectUpdateManyWithoutContestsInput {
@@ -367,6 +377,34 @@ export interface UserWhereInput {
   id_not_starts_with?: ID_Input;
   id_ends_with?: ID_Input;
   id_not_ends_with?: ID_Input;
+  email?: String;
+  email_not?: String;
+  email_in?: String[] | String;
+  email_not_in?: String[] | String;
+  email_lt?: String;
+  email_lte?: String;
+  email_gt?: String;
+  email_gte?: String;
+  email_contains?: String;
+  email_not_contains?: String;
+  email_starts_with?: String;
+  email_not_starts_with?: String;
+  email_ends_with?: String;
+  email_not_ends_with?: String;
+  role?: String;
+  role_not?: String;
+  role_in?: String[] | String;
+  role_not_in?: String[] | String;
+  role_lt?: String;
+  role_lte?: String;
+  role_gt?: String;
+  role_gte?: String;
+  role_contains?: String;
+  role_not_contains?: String;
+  role_starts_with?: String;
+  role_not_starts_with?: String;
+  role_ends_with?: String;
+  role_not_ends_with?: String;
   name?: String;
   name_not?: String;
   name_in?: String[] | String;
@@ -381,6 +419,20 @@ export interface UserWhereInput {
   name_not_starts_with?: String;
   name_ends_with?: String;
   name_not_ends_with?: String;
+  passwordHash?: String;
+  passwordHash_not?: String;
+  passwordHash_in?: String[] | String;
+  passwordHash_not_in?: String[] | String;
+  passwordHash_lt?: String;
+  passwordHash_lte?: String;
+  passwordHash_gt?: String;
+  passwordHash_gte?: String;
+  passwordHash_contains?: String;
+  passwordHash_not_contains?: String;
+  passwordHash_starts_with?: String;
+  passwordHash_not_starts_with?: String;
+  passwordHash_ends_with?: String;
+  passwordHash_not_ends_with?: String;
   AND?: UserWhereInput[] | UserWhereInput;
   OR?: UserWhereInput[] | UserWhereInput;
   NOT?: UserWhereInput[] | UserWhereInput;
@@ -434,7 +486,10 @@ export interface ProjectUpsertWithWhereUniqueWithoutContestsInput {
 }
 
 export interface UserUpdateInput {
+  email?: String;
+  role?: String;
   name?: String;
+  passwordHash?: String;
 }
 
 export interface ProjectScalarWhereInput {
@@ -576,7 +631,10 @@ export interface ContestUpdateManyWithWhereNestedInput {
 }
 
 export interface UserCreateInput {
-  name: String;
+  email: String;
+  role: String;
+  name?: String;
+  passwordHash: String;
 }
 
 export interface ContestSubscriptionWhereInput {
@@ -596,21 +654,30 @@ export interface NodeNode {
 
 export interface UserPreviousValues {
   id: ID_Output;
-  name: String;
+  email: String;
+  role: String;
+  name?: String;
+  passwordHash: String;
 }
 
 export interface UserPreviousValuesPromise
   extends Promise<UserPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
+  email: () => Promise<String>;
+  role: () => Promise<String>;
   name: () => Promise<String>;
+  passwordHash: () => Promise<String>;
 }
 
 export interface UserPreviousValuesSubscription
   extends Promise<AsyncIterator<UserPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
+  email: () => Promise<AsyncIterator<String>>;
+  role: () => Promise<AsyncIterator<String>>;
   name: () => Promise<AsyncIterator<String>>;
+  passwordHash: () => Promise<AsyncIterator<String>>;
 }
 
 export interface AggregateContest {
@@ -970,19 +1037,28 @@ export interface ProjectEdgeSubscription
 
 export interface User {
   id: ID_Output;
-  name: String;
+  email: String;
+  role: String;
+  name?: String;
+  passwordHash: String;
 }
 
 export interface UserPromise extends Promise<User>, Fragmentable {
   id: () => Promise<ID_Output>;
+  email: () => Promise<String>;
+  role: () => Promise<String>;
   name: () => Promise<String>;
+  passwordHash: () => Promise<String>;
 }
 
 export interface UserSubscription
   extends Promise<AsyncIterator<User>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
+  email: () => Promise<AsyncIterator<String>>;
+  role: () => Promise<AsyncIterator<String>>;
   name: () => Promise<AsyncIterator<String>>;
+  passwordHash: () => Promise<AsyncIterator<String>>;
 }
 
 export interface UserConnection {

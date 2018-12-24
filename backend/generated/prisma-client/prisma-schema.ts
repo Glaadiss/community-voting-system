@@ -443,7 +443,10 @@ type Subscription {
 
 type User {
   id: ID!
-  name: String!
+  email: String!
+  role: String!
+  name: String
+  passwordHash: String!
 }
 
 type UserConnection {
@@ -453,7 +456,10 @@ type UserConnection {
 }
 
 input UserCreateInput {
-  name: String!
+  email: String!
+  role: String!
+  name: String
+  passwordHash: String!
 }
 
 type UserEdge {
@@ -464,8 +470,14 @@ type UserEdge {
 enum UserOrderByInput {
   id_ASC
   id_DESC
+  email_ASC
+  email_DESC
+  role_ASC
+  role_DESC
   name_ASC
   name_DESC
+  passwordHash_ASC
+  passwordHash_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -474,7 +486,10 @@ enum UserOrderByInput {
 
 type UserPreviousValues {
   id: ID!
-  name: String!
+  email: String!
+  role: String!
+  name: String
+  passwordHash: String!
 }
 
 type UserSubscriptionPayload {
@@ -496,11 +511,17 @@ input UserSubscriptionWhereInput {
 }
 
 input UserUpdateInput {
+  email: String
+  role: String
   name: String
+  passwordHash: String
 }
 
 input UserUpdateManyMutationInput {
+  email: String
+  role: String
   name: String
+  passwordHash: String
 }
 
 input UserWhereInput {
@@ -518,6 +539,34 @@ input UserWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  email: String
+  email_not: String
+  email_in: [String!]
+  email_not_in: [String!]
+  email_lt: String
+  email_lte: String
+  email_gt: String
+  email_gte: String
+  email_contains: String
+  email_not_contains: String
+  email_starts_with: String
+  email_not_starts_with: String
+  email_ends_with: String
+  email_not_ends_with: String
+  role: String
+  role_not: String
+  role_in: [String!]
+  role_not_in: [String!]
+  role_lt: String
+  role_lte: String
+  role_gt: String
+  role_gte: String
+  role_contains: String
+  role_not_contains: String
+  role_starts_with: String
+  role_not_starts_with: String
+  role_ends_with: String
+  role_not_ends_with: String
   name: String
   name_not: String
   name_in: [String!]
@@ -532,6 +581,20 @@ input UserWhereInput {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
+  passwordHash: String
+  passwordHash_not: String
+  passwordHash_in: [String!]
+  passwordHash_not_in: [String!]
+  passwordHash_lt: String
+  passwordHash_lte: String
+  passwordHash_gt: String
+  passwordHash_gte: String
+  passwordHash_contains: String
+  passwordHash_not_contains: String
+  passwordHash_starts_with: String
+  passwordHash_not_starts_with: String
+  passwordHash_ends_with: String
+  passwordHash_not_ends_with: String
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]
@@ -539,5 +602,6 @@ input UserWhereInput {
 
 input UserWhereUniqueInput {
   id: ID
+  email: String
 }
 `
