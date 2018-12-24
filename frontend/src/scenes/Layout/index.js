@@ -21,19 +21,15 @@ import MailIcon from '@material-ui/icons/Mail';
 import { Menu, MenuItem } from '@material-ui/core';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import styles from './styles';
-import auth from '../../services/auth/State';
-import { withRouter } from 'react-router-dom';
+import { withRouter, BrowserRouter as Router, Route } from 'react-router-dom';
+import Contests from '../Contests';
+import { AuthContext } from '../../App';
 function Layout(props) {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchor] = useState(null);
   function handleMenu(event) {
     event.persist();
     setAnchor(event.target);
-  }
-
-  function signout() {
-    handleClose();
-    auth.signout(() => props.history.push('/login'));
   }
 
   function handleDrawerOpen() {
@@ -97,7 +93,11 @@ function Layout(props) {
             onClose={handleClose}
           >
             <MenuItem onClick={handleClose}>My account</MenuItem>
-            <MenuItem onClick={signout}>Wyloguj się!</MenuItem>
+            <AuthContext.Consumer>
+              {context => (
+                <MenuItem onClick={context.signout}>Wyloguj się!</MenuItem>
+              )}
+            </AuthContext.Consumer>
           </Menu>
         </Toolbar>
       </AppBar>
@@ -149,11 +149,13 @@ function Layout(props) {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <Typography paragraph>Qqwe</Typography>
+        <Router>
+          <Route path="/app/contests" component={Contests} />
+        </Router>
+        {/* <Typography paragraph>Qqwe</Typography>
         <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est
-          ullamcorper eget nulla
-        </Typography>
+            {Query }
+        </Typography> */}
       </main>
     </div>
   );

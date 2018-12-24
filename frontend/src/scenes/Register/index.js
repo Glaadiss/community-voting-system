@@ -1,22 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import AuthForm from '../../components/AuthForm';
-
-function Register(props) {
-  const { register } = props;
+import { RegisterMutation } from '../../services/auth/State';
+import { withRouter } from 'react-router-dom';
+function Register() {
   return (
     <AuthForm
-      onSubmit={register}
       title="Rejestracja"
       firstAction="Zajerestruj się!"
       secondAction="Posiadasz konto? Zaloguj się!"
       secondActionLink="/login"
+      Mutation={withRouter(RegisterMutation)}
     />
   );
 }
-
-Register.propTypes = {
-  register: PropTypes.func.isRequired,
-};
 
 export default Register;

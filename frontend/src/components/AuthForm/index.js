@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -14,29 +14,42 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import styles from './styles';
 import { Link } from 'react-router-dom';
+import Snackbar from '../Snackbar';
 
 function SignIn(props) {
   const {
     classes,
-    onSubmit,
     firstAction,
     secondAction,
     title,
     secondActionLink,
+    Mutation,
   } = props;
 
-  function handleSubmit(event) {
-    event.persist();
-    onSubmit({
-      email: document.getElementById('email'),
-      password: document.getElementById('password'),
-    });
-    event.preventDefault();
+  const [message, setSnackbarMessage] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  function handleSubmit(onSubmit) {
+    return event => {
+      event.persist();
+      onSubmit({
+        variables: {
+          email,
+          password,
+        },
+      });
+      event.preventDefault();
+    };
   }
 
   return (
     <main className={classes.main}>
       <CssBaseline />
+      <Snackbar
+        open={!!message}
+        message={message}
+        setSnackbarMessage={setSnackbarMessage}
+      />
       <Paper className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockIcon />
@@ -44,43 +57,54 @@ function SignIn(props) {
         <Typography component="h1" variant="h5">
           {title}
         </Typography>
-        <form className={classes.form} onSubmit={handleSubmit}>
-          <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="email">Email</InputLabel>
-            <Input id="email" name="email" autoComplete="email" autoFocus />
-          </FormControl>
-          <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="password">Hasło</InputLabel>
-            <Input
-              name="password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-          </FormControl>
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Pamiętaj mnie"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            {firstAction}
-          </Button>
-          <Button
-            component={props => <Link {...props} to={secondActionLink} />}
-            fullWidth
-            variant="contained"
-            color="secondary"
-            className={classes.submit}
-          >
-            {secondAction}
-          </Button>
-        </form>
+        <Mutation onError={setSnackbarMessage}>
+          {submit => (
+            <form className={classes.form} onSubmit={handleSubmit(submit)}>
+              <FormControl margin="normal" required fullWidth>
+                <InputLabel htmlFor="email">Email</InputLabel>
+                <Input
+                  name="email"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  autoComplete="email"
+                  autoFocus
+                />
+              </FormControl>
+              <FormControl margin="normal" required fullWidth>
+                <InputLabel htmlFor="password">Hasło</InputLabel>
+                <Input
+                  name="password"
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  type="password"
+                  autoComplete="current-password"
+                />
+              </FormControl>
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Pamiętaj mnie"
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                {firstAction}
+              </Button>
+              <Button
+                component={props => <Link {...props} to={secondActionLink} />}
+                fullWidth
+                variant="contained"
+                color="secondary"
+                className={classes.submit}
+              >
+                {secondAction}
+              </Button>
+            </form>
+          )}
+        </Mutation>
       </Paper>
     </main>
   );
@@ -88,11 +112,11 @@ function SignIn(props) {
 
 SignIn.propTypes = {
   classes: PropTypes.object.isRequired,
-  onSubmit: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   firstAction: PropTypes.string.isRequired,
   secondAction: PropTypes.string.isRequired,
   secondActionLink: PropTypes.string.isRequired,
+  Mutation: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(SignIn);

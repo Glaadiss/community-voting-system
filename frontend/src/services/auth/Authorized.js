@@ -1,22 +1,27 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import auth from './State';
+import { AuthContext } from '../../App';
+
 export default function Authorized({ component: Component, ...rest }) {
   return (
     <Route
       {...rest}
-      render={props =>
-        auth.isAuthenticated() ? (
-          <Component {...props} />
-        ) : (
-          <Redirect
-            to={{
-              pathname: '/login',
-              state: { from: props.location },
-            }}
-          />
-        )
-      }
+      render={props => (
+        <AuthContext.Consumer>
+          {context =>
+            context.logged ? (
+              <Component {...props} />
+            ) : (
+              <Redirect
+                to={{
+                  pathname: '/login',
+                  state: { from: props.location },
+                }}
+              />
+            )
+          }
+        </AuthContext.Consumer>
+      )}
     />
   );
 }

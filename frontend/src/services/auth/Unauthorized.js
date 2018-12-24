@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import auth from './State';
+import { AuthContext } from '../../App';
 
 export default function withUnauthorized(Component) {
   return class Unauthorized extends React.Component {
@@ -10,24 +10,22 @@ export default function withUnauthorized(Component) {
       this.setState({ redirectToReferrer: true });
     };
 
-    login = () => {
-      auth.authenticate(this.setRedirect);
-    };
-
-    register = () => {
-      auth.register(this.setRedirect);
-    };
-
     render() {
       let { from } = this.props.location.state || {
         from: { pathname: '/app' },
       };
       let { redirectToReferrer } = this.state;
-
-      if (redirectToReferrer || auth.isAuthenticated())
-        return <Redirect to={from} />;
-
-      return <Component login={this.login} register={this.register} />;
+      return (
+        <AuthContext.Consumer>
+          {context =>
+            redirectToReferrer || context.logged ? (
+              <Redirect to={from} />
+            ) : (
+              <Component />
+            )
+          }
+        </AuthContext.Consumer>
+      );
     }
   };
 }
