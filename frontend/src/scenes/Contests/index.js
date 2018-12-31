@@ -3,6 +3,7 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import { signout } from '../../services/auth/State';
 import { AuthContext } from '../../App';
+import ContestTable from '../../components/Contests/Table';
 
 const GET_CONTESTS = gql`
   {
@@ -30,12 +31,7 @@ function Contests() {
               }
               console.log(error);
             }
-
-            return data.contests.map(el => (
-              <p key={el.ld}>
-                <strong>el.name</strong>
-              </p>
-            ));
+            return <ContestTable rows={data.contests} />;
           }}
         </Query>
       )}

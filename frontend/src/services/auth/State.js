@@ -2,13 +2,16 @@ import React from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import { AuthContext } from '../../App';
-
+export const ROLE = 'ROLE';
 export const AUTH_TOKEN = '__AUTH__TOKEN__';
 
 const SIGNUP_MUTATION = gql`
   mutation Mutation($email: String!, $password: String!) {
     createUser(email: $email, password: $password) {
       token
+      user {
+        role
+      }
     }
   }
 `;
@@ -17,6 +20,9 @@ const LOGIN_MUTATION = gql`
   mutation Mutation($email: String!, $password: String!) {
     login(email: $email, password: $password) {
       token
+      user {
+        role
+      }
     }
   }
 `;
@@ -29,7 +35,11 @@ function authMutation(props, mutation) {
           mutation={mutation}
           onCompleted={authenticate(context)}
           onError={err => {
-            props.onError(err.graphQLErrors[0].message);
+            props.onError(
+              err.graphQLErrors &&
+                err.graphQLErrors[0] &&
+                err.graphQLErrors[0].message,
+            );
           }}
         >
           {submit => {
@@ -61,10 +71,12 @@ export function isAuthenticated() {
 function authenticate(context) {
   return ({ login, createUser }) => {
     const source = login || createUser;
-    const { token } = source;
+    const { token, user } = source;
     if (token) {
       localStorage.setItem(AUTH_TOKEN, token);
+      localStorage.setItem(ROLE, user.role);
       localStorage.setItem(authenticated, true);
+      context.setRole(user.role);
       context.signin();
     }
   };

@@ -10,7 +10,7 @@ export const AuthContext = React.createContext();
 const initialState = isAuthenticated();
 function App() {
   const [logged, setLogged] = useState(initialState);
-
+  const [role, setRole] = useState(localStorage.getItem('ROLE'));
   function signout() {
     logout();
     setLogged(false);
@@ -22,7 +22,7 @@ function App() {
 
   return (
     <div className="App">
-      <AuthContext.Provider value={{ logged, signout, signin }}>
+      <AuthContext.Provider value={{ logged, signout, signin, setRole, role }}>
         <Router>
           <div>
             <Route path="/register" component={withUnauthorized(Register)} />
