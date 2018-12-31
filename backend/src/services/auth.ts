@@ -61,7 +61,6 @@ export const checkUser = async (resolve, _, args, context, info) => {
 };
 
 function allowResource(context, roles) {
-  console.log(context.user);
   if (!context.user || !context.user.role) {
     throw new UnauthorizedError();
   }
