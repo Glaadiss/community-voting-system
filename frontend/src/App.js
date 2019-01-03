@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import Layout from './scenes/Layout';
 import Login from './scenes/Login';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import withUnauthorized from './services/auth/Unauthorized';
 import Authorized from './services/auth/Authorized';
 import Register from './scenes/Register';
 import { isAuthenticated, signout as logout } from './services/auth/State';
+
 export const AuthContext = React.createContext();
 const initialState = isAuthenticated();
 function App() {
