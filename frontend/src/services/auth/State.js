@@ -2,6 +2,7 @@ import React from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import { AuthContext } from '../../App';
+
 export const ROLE = 'ROLE';
 export const AUTH_TOKEN = '__AUTH__TOKEN__';
 
@@ -42,9 +43,7 @@ function authMutation(props, mutation) {
             );
           }}
         >
-          {submit => {
-            return props.children(submit);
-          }}
+          {submit => props.children(submit)}
         </Mutation>
       )}
     </AuthContext.Consumer>

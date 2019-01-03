@@ -8,6 +8,7 @@ module.exports = {
     'object-curly-newline': 0,
     'no-confusing-arrow': 0,
     'implicit-arrow-linebreak': 0,
+    'operator-linebreak': 0,
   },
   env: {
     browser: true,

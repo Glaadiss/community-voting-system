@@ -15,11 +15,12 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { Menu, MenuItem } from '@material-ui/core';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import { withRouter, Route, Link } from 'react-router-dom';
 import styles from './styles';
-import { withRouter, BrowserRouter as Router, Route } from 'react-router-dom';
 import Contests from '../Contests';
 import { AuthContext } from '../../App';
-import { DrawerContent } from '../../components/DrawerContent';
+import DrawerContent from '../../components/DrawerContent';
+
 function Layout(props) {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchor] = useState(null);
@@ -69,6 +70,9 @@ function Layout(props) {
             color="inherit"
             noWrap
             className={classes.grow}
+            component={prop => (
+              <Link to="/app" {...prop} style={{ textDecoration: 'none' }} />
+            )}
           >
             Projekty Gminne XD
           </Typography>
@@ -125,13 +129,7 @@ function Layout(props) {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <Router>
-          <Route path="/app/contests" component={Contests} />
-        </Router>
-        {/* <Typography paragraph>Qqwe</Typography>
-        <Typography paragraph>
-            {Query }
-        </Typography> */}
+        <Route path="/app/contests" component={Contests} />
       </main>
     </div>
   );
@@ -140,7 +138,6 @@ function Layout(props) {
 Layout.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles, { withTheme: true })(withRouter(Layout));

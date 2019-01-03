@@ -1,7 +1,7 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import AuthForm from '../../components/AuthForm';
 import { LoginMutation } from '../../services/auth/State';
-import { withRouter } from 'react-router-dom';
 
 function Login() {
   return (

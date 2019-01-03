@@ -12,8 +12,8 @@ import LockIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-import styles from './styles';
 import { Link } from 'react-router-dom';
+import styles from './styles';
 import Snackbar from '../Snackbar';
 
 function SignIn(props) {
@@ -94,7 +94,7 @@ function SignIn(props) {
                 {firstAction}
               </Button>
               <Button
-                component={props => <Link {...props} to={secondActionLink} />}
+                component={prop => <Link {...prop} to={secondActionLink} />}
                 fullWidth
                 variant="contained"
                 color="secondary"
