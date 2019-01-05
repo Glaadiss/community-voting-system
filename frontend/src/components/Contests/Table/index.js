@@ -8,6 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Button } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 const styles = theme => ({
   root: {
@@ -33,19 +34,24 @@ function ContestTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(row => {
-            return (
-              <TableRow key={row.id}>
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell align="right">
-                  {' '}
-                  <Button primary> Show </Button>{' '}
-                </TableCell>
-              </TableRow>
-            );
-          })}
+          {rows.map(row => (
+            <TableRow key={row.id}>
+              <TableCell component="th" scope="row">
+                {row.name}
+              </TableCell>
+              <TableCell align="right">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  component={prop => (
+                    <Link to={`/app/contests/${row.id}`} {...prop} />
+                  )}
+                >
+                  Show
+                </Button>
+              </TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </Paper>

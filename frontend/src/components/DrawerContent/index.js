@@ -1,24 +1,28 @@
 import React from 'react';
-import { AuthContext } from '../../App';
-
+import { Link } from 'react-router-dom';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import { AuthContext } from '../../App';
 
-export function DrawerContent() {
+export default function DrawerContent() {
   return (
     <AuthContext.Consumer>
       {context => (
         <List>
-          {getContentByRole(context.role).map((text, index) => (
-            <ListItem button key={text}>
+          {getContentByRole(context.role).map((item, index) => (
+            <ListItem
+              button
+              key={item.text}
+              component={props => <Link to={item.link} {...props} />}
+            >
               <ListItemIcon>
                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
               </ListItemIcon>
-              <ListItemText primary={text.toUpperCase()} />
+              <ListItemText primary={item.text.toUpperCase()} />
             </ListItem>
           ))}
         </List>
@@ -30,24 +34,29 @@ export function DrawerContent() {
 function getContentByRole(role) {
   switch (role) {
     case 'user':
-      return ['Zobacz listę projektów'];
+      return [
+        {
+          link: '/app/contests',
+          text: 'Zobacz listę projektów',
+        },
+      ];
     case 'operator':
       return [
-        'Zobacz listę projektów',
-        'Utwórz nowy konkurs',
-        'Utwórz nowy projekt',
-        'wyniki zamkniętych konkursów',
-        'Edytuj zamknięty konkrurs',
-        'Generuj raport',
+        { text: 'Zobacz listę projektów', link: '/app' },
+        { text: 'Utwórz nowy konkurs', link: '/app' },
+        { text: 'Utwórz nowy projekt', link: '/app' },
+        { text: 'wyniki zamkniętych konkursów', link: '/app' },
+        { text: 'Edytuj zamknięty konkrurs', link: '/app' },
+        { text: 'Generuj raport', link: '/app' },
       ];
     case 'admin':
       return [
-        'Zobacz listę projektów',
-        'Utwórz nowy konkurs',
-        'Utwórz nowy projekt',
-        'wyniki zamkniętych konkursów',
-        'Edytuj zamknięty konkrurs',
-        'Generuj raport',
+        { text: 'Zobacz listę projektów', link: '/app' },
+        { text: 'Utwórz nowy konkurs', link: '/app' },
+        { text: 'Utwórz nowy projekt', link: '/app' },
+        { text: 'wyniki zamkniętych konkursów', link: '/app' },
+        { text: 'Edytuj zamknięty konkrurs', link: '/app' },
+        { text: 'Generuj raport', link: '/app' },
       ];
     default:
       return [];
