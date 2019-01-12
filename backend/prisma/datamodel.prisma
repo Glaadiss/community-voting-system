@@ -17,7 +17,7 @@ type Contest {
   image: String @default(value: "https://cdn.pixabay.com/photo/2014/12/28/02/23/mother-board-581597_960_720.jpg")
   description: String
   projects: [Project!]! @relation(name: "ProjectToContest", onDelete: SET_NULL)
-  votes: [Vote!]! @relation(VoteToContest, onDelete: CASCADE)
+  votes: [Vote!]! @relation(name: "VoteToContest", onDelete: CASCADE)
   startDate: DateTime
   endDate: DateTime
   isPublished: Boolean!
@@ -30,7 +30,7 @@ type Project {
   title: String!
   description: String
   contests: [Contest!]! @relation(name: "ProjectToContest", onDelete: SET_NULL)
-  votes: [Vote!]! @relation(name: "VoteToProject, onDelete: CASCADE)
+  votes: [Vote!]! @relation(name: "VoteToProject", onDelete: CASCADE)
   isPublished: Boolean!
   createdAt: DateTime!
   updatedAt: DateTime!
