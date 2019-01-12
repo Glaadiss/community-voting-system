@@ -4,6 +4,7 @@ import { BadData } from '../errorTypes';
 import { Context, ROLE } from '../utils/customTypes';
 import { allowAdmin, sign } from '../services/auth';
 import { validateEmail, validatePassword } from '../utils/validator';
+import { create } from 'domain';
 
 const Mutation = {
     createContest(_, args, context: Context) {
@@ -11,19 +12,19 @@ const Mutation = {
             ...args
         });
     },
-    async createUser(_, { data }, context: Context) {
+    async createAdmin(_, { data }, context: Context) {
         if (!validatePassword(data.password))
             throw new BadData({
                 data: {
                     additional_info: 'Password must have at least 8 characters and contain: 1 upper case character, 1 lower case characterm, 1 number, 1 special character.'
                 }
-            })
+            });
         if (!validateEmail(data.email))
             throw new BadData({
                 data: {
                     additional_info: 'Invalid email address.'
                 }
-            })
+            });
         const emailExists = await prisma.user({ email: data.email });
         if (emailExists)
             throw new BadData({
@@ -31,7 +32,66 @@ const Mutation = {
                     additional_info: 'User with this email already exists.'
                 }
             });
-        const peselExists = await prisma.user({ pesel: data.pesel })
+        const passwordHash = await bcrypt.hash(data.password, 5);
+        const admin = await allowAdmin(context).createUser({
+            email: data.email.toLowerCase(),
+            role: ROLE.ADMIN,
+            passwordHash
+        });
+        const token = sign(admin);
+        return { token };
+    },
+    async createOperator(_, { data }, context: Context) {
+        if (!validatePassword(data.password))
+            throw new BadData({
+                data: {
+                    additional_info: 'Password must have at least 8 characters and contain: 1 upper case character, 1 lower case characterm, 1 number, 1 special character.'
+                }
+            });
+        if (!validateEmail(data.email))
+            throw new BadData({
+                data: {
+                    additional_info: 'Invalid email address.'
+                }
+            });
+        const emailExists = await prisma.user({ email: data.email });
+        if (emailExists)
+            throw new BadData({
+                data: {
+                    additional_info: 'User with this email already exists.'
+                }
+            });
+        const passwordHash = await bcrypt.hash(data.password, 5);
+        const operator = await allowAdmin(context).createUser({
+            email: data.email.toLowerCase(),
+            name: data.name,
+            role: ROLE.OPERATOR,
+            passwordHash
+        });
+        const token = sign(operator);
+        return { token };
+    },
+    async createUser(_, { data }, context: Context) {
+        if (!validatePassword(data.password))
+            throw new BadData({
+                data: {
+                    additional_info: 'Password must have at least 8 characters and contain: 1 upper case character, 1 lower case characterm, 1 number, 1 special character.'
+                }
+            });
+        if (!validateEmail(data.email))
+            throw new BadData({
+                data: {
+                    additional_info: 'Invalid email address.'
+                }
+            });
+        const emailExists = await prisma.user({ email: data.email });
+        if (emailExists)
+            throw new BadData({
+                data: {
+                    additional_info: 'User with this email already exists.'
+                }
+            });
+        const peselExists = await prisma.user({ pesel: data.pesel });
         if (peselExists)
             throw new BadData({
                 data: {
@@ -46,9 +106,9 @@ const Mutation = {
             pesel: data.pesel,
             role: ROLE.USER,
             passwordHash
-        })
+        });
         const token = sign(user);
-        return { user, token };
+        return { token };
     },
     async login(_, { data }, context: Context) {
         const user = await prisma.user({ email: data.email });
