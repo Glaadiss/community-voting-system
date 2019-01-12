@@ -42,7 +42,7 @@ const Mutation = {
                 name: data.name,
                 pesel: data.pesel,
                 postalCode: data.postalCode,
-                role: ROLE.OPERATOR,
+                role: ROLE.USER,
             }),
         validators: [
             async data => {
@@ -55,6 +55,18 @@ const Mutation = {
                     });
                 }
             },
+            async data => {
+                const emailExists = await prisma.user({ email: data.email });
+                if (emailExists)
+                    throw new BadData({
+                        data: {
+                            additional_info: 'User with this email already exists.'
+                        }
+                    });
+            },
+            async data => {
+
+            }
         ],
     }),
 
