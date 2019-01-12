@@ -1,0 +1,45 @@
+type User {
+  id: ID! @unique
+  email: String! @unique
+  passwordHash: String!
+  name: String!
+  pesel: String! @unique
+  role: String!
+  postalCode: String!
+  votes: [Vote!]! @relation(name: "VoteToUser", onDelete: CASCADE)
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Contest {
+  id: ID! @unique
+  title: String!
+  image: String @default(value: "https://cdn.pixabay.com/photo/2014/12/28/02/23/mother-board-581597_960_720.jpg")
+  description: String
+  projects: [Project!]! @relation(name: "ProjectToContest", onDelete: SET_NULL)
+  votes: [Vote!]! @relation(name: "VoteToContest", onDelete: CASCADE)
+  startDate: DateTime
+  endDate: DateTime
+  isPublished: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Project {
+  id: ID! @unique
+  title: String!
+  description: String
+  contests: [Contest!]! @relation(name: "ProjectToContest", onDelete: SET_NULL)
+  votes: [Vote!]! @relation(name: "VoteToProject", onDelete: CASCADE)
+  isPublished: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Vote {
+  id: ID! @unique
+  contest: Contest! @relation(name: "VoteToContest", onDelete: SET_NULL)
+  project: Project! @relation(name: "VoteToProject", onDelete: SET_NULL)
+  user: User! @relation(name: "VoteToUser", onDelete: SET_NULL)
+  createdAt: DateTime!
+}
