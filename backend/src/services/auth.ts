@@ -1,8 +1,8 @@
 import bcrypt = require('bcrypt');
 import jwt = require('jsonwebtoken');
-import { prisma, Prisma } from '../../generated/prisma-client';
+import { prisma, Prisma } from '../../prisma/generated/prisma-client';
 import { BadData, ForbiddenError, UnauthorizedError } from '../errorTypes';
-import { Context } from '../index';
+import { Context } from '../utils/customTypes';
 const SECRET = 'toReplaceSomeday';
 enum ROLE {
   USER = 'user',
