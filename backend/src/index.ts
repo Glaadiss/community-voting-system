@@ -1,49 +1,19 @@
 import { formatError } from 'apollo-errors';
 import { GraphQLServer, Options } from 'graphql-yoga';
-import { ContextParameters } from 'graphql-yoga/dist/types';
-import {
-  allowAdmin,
-  allowUser,
-  checkUser,
-  createUser,
-  login,
-} from './services/auth';
+import { checkUser } from './services/auth';
+import Query from './resolvers/Query';
+import Mutation from './resolvers/Mutation';
 
 const options: Options = {
   formatError,
 };
 
-export interface Context {
-  request: ContextParameters;
-  user?: { name: string; email: string; role: string };
-}
-
-const resolvers = {
-  Query: {
-    contests(_, {}, context: Context, info) {
-      return allowUser(context).contests();
-    },
-    contest(_, { contestId }, context) {
-      return allowUser(context).contest({ id: contestId });
-    },
-    users(_, args, context: Context) {
-      return allowAdmin(context).users();
-    },
-  },
-  Mutation: {
-    createContest(_, { name }, context: Context) {
-      return allowAdmin(context).createContest({
-        name,
-      });
-    },
-    createUser,
-    login,
-  },
-};
-
 const server = new GraphQLServer({
   typeDefs: 'src/schema.graphql',
-  resolvers,
+  resolvers: {
+    Query,
+    Mutation
+  },
   context: request => ({
     request,
   }),

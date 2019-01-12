@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node src/index.ts ",
+    "start": "ts-node src/index.ts",
     "update": "prisma deploy && prisma generate",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/node": "^10.12.18",
     "apollo-errors": "^1.9.0",
     "bcrypt": "^3.0.2",
     "graphql-yoga": "^1.16.9",

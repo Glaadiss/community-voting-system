@@ -5,22 +5,36 @@ type Query {
 }
 
 type Mutation {
-  createUser(email: String!, password: String!, name: String): AuthPayload
+  createUser(data: CreateUserInput!): AuthPayload
   createContest(name: String!): Contest
   addProjectsToContest(contestId: ID!, projectName: String!): Contest
-  login(email: String!, password: String!): AuthPayload
+  login(data: LoginUserInput!): AuthPayload
+}
+
+input CreateUserInput {
+  email: String!
+  password: String!
+  name: String!
+  postalCode: String!
+  pesel: String!
+}
+
+input LoginUserInput {
+  email: String!
+  password: String!
 }
 
 type AuthPayload {
-  token: String
-  user: User
+  token: String!
 }
 
 type User {
   id: ID!
   email: String!
-  role: String!
-  name: String
+  role: RoleType!
+  name: String!
+  postalCode: String!
+  pesel: String!
   passwordHash: String!
 }
 
@@ -34,4 +48,10 @@ type Project {
   id: ID!
   name: String!
   contests: [Contest!]!
+}
+
+enum RoleType {
+    user
+    operator
+    admin
 }
