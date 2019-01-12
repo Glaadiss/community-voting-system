@@ -1,44 +1,12 @@
-import bcrypt = require('bcrypt');
 import jwt = require('jsonwebtoken');
 import { prisma, Prisma } from '../../prisma/generated/prisma-client';
-import { BadData, ForbiddenError, UnauthorizedError } from '../errorTypes';
-import { Context } from '../utils/customTypes';
+import { ForbiddenError, UnauthorizedError } from '../errorTypes';
+import { ROLE } from '../utils/customTypes';
+
+//MOVE TO ENV
 const SECRET = 'toReplaceSomeday';
-enum ROLE {
-  USER = 'user',
-  OPERATOR = 'operator',
-  ADMIN = 'admin',
-}
 
-export async function createUser(_, args, context: Context) {
-  const passwordHash = await bcrypt.hash(args.password, 5);
-  const user = await prisma.createUser({
-    email: args.email,
-    passwordHash,
-    name: args.name,
-    role: ROLE.USER,
-  });
-  const token = sign(user);
-  return { user, token };
-}
-
-export async function login(_, args, context: Context) {
-  const user = await prisma.user({ email: args.email });
-  if (!user) {
-    throw new BadData();
-  }
-  const passwordCorrect = await bcrypt.compare(
-    args.password,
-    user.passwordHash,
-  );
-  if (!passwordCorrect) {
-    throw new BadData();
-  }
-  const token = sign(user);
-  return { user, token };
-}
-
-function sign(user) {
+export function sign(user) {
   return jwt.sign(
     { email: user.email, name: user.name, role: user.role, id: user.id },
     SECRET,

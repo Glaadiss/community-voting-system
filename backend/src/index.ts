@@ -3,6 +3,7 @@ import { GraphQLServer, Options } from 'graphql-yoga';
 import { checkUser } from './services/auth';
 import Query from './resolvers/Query';
 import Mutation from './resolvers/Mutation';
+
 const options: Options = {
   formatError,
 };
