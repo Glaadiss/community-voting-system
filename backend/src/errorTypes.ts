@@ -7,13 +7,13 @@ enum ERROR {
 }
 
 export const UnauthorizedError = createError(ERROR.UNAUTHORIZED, {
-  message: 'Login in order to use this feature.',
+  message: 'Login in order to use the dashboard.',
 });
 
 export const ForbiddenError = createError(ERROR.FORBIDDEN, {
-  message: 'Nie masz uprawnien do tych zasobów.',
+  message: 'You don\'t have permission to view this assets.',
 });
 
 export const BadData = createError(ERROR.BAD_DATA, {
-  message: 'Wprowadzono niepoprawne dane.',
+  message: 'Invalid data.',
 });

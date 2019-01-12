@@ -4,7 +4,6 @@ import { BadData } from '../errorTypes';
 import { Context, ROLE } from '../utils/customTypes';
 import { allowAdmin, sign } from '../services/auth';
 import { validateEmail, validatePassword } from '../utils/validator';
-import { create } from 'domain';
 
 const Mutation = {
     createContest(_, args, context: Context) {
@@ -77,7 +76,7 @@ const Mutation = {
                 data: {
                     additional_info: 'Password must have at least 8 characters and contain: 1 upper case character, 1 lower case characterm, 1 number, 1 special character.'
                 }
-            });
+            })
         if (!validateEmail(data.email))
             throw new BadData({
                 data: {
@@ -100,7 +99,7 @@ const Mutation = {
             });
         const passwordHash = await bcrypt.hash(data.password, 5);
         const user = await prisma.createUser({
-            email: data.email,
+            email: data.email.toLowerCase(),
             name: data.name,
             postalCode: data.postalCode,
             pesel: data.pesel,
@@ -113,15 +112,22 @@ const Mutation = {
     async login(_, { data }, context: Context) {
         const user = await prisma.user({ email: data.email });
         if (!user) {
-            throw new BadData();
+            throw new BadData({
+                data: {
+                    additional_info: 'Invalid credentials.'
+                }
+            });
         }
         const passwordCorrect = await bcrypt.compare(
             data.password,
             user.passwordHash,
         );
-        if (!passwordCorrect) {
-            throw new BadData();
-        }
+        if (!passwordCorrect)
+            throw new BadData({
+                data: {
+                    additional_info: 'Invalid credentials.'
+                }
+            });
         const token = sign(user);
         return { token };
     }
