@@ -32,13 +32,13 @@ const Mutation = {
                 }
             });
         const passwordHash = await bcrypt.hash(data.password, 5);
-        const admin = await allowAdmin(context).createUser({
+        const user = await allowAdmin(context).createUser({
             email: data.email.toLowerCase(),
             role: ROLE.ADMIN,
             passwordHash
         });
-        const token = sign(admin);
-        return { token };
+        const token = sign(user);
+        return { user, token };
     },
     async createOperator(_, { data }, context: Context) {
         if (!validatePassword(data.password))
@@ -61,14 +61,14 @@ const Mutation = {
                 }
             });
         const passwordHash = await bcrypt.hash(data.password, 5);
-        const operator = await allowAdmin(context).createUser({
+        const user = await allowAdmin(context).createUser({
             email: data.email.toLowerCase(),
             name: data.name,
             role: ROLE.OPERATOR,
             passwordHash
         });
-        const token = sign(operator);
-        return { token };
+        const token = sign(user);
+        return { user, token };
     },
     async createUser(_, { data }, context: Context) {
         if (!validatePassword(data.password))
@@ -107,7 +107,7 @@ const Mutation = {
             passwordHash
         });
         const token = sign(user);
-        return { token };
+        return { user, token };
     },
     async login(_, { data }, context: Context) {
         const user = await prisma.user({ email: data.email });
