@@ -2,11 +2,11 @@ type User {
   id: ID! @unique
   email: String! @unique
   passwordHash: String!
-  name: String!
-  pesel: String! @unique
+  name: String
+  pesel: String @unique
   role: String!
-  postalCode: String!
-  votes: [Vote!]! @relation(name: "VoteToUser", onDelete: CASCADE)
+  postalCode: String
+  votes: [Vote!] @relation(name: "VoteToUser", onDelete: CASCADE)
   createdAt: DateTime!
   updatedAt: DateTime!
 }

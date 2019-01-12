@@ -7,7 +7,7 @@ enum ERROR {
 }
 
 export const UnauthorizedError = createError(ERROR.UNAUTHORIZED, {
-  message: 'Zaloguj się by korzystać z aplikacji.',
+  message: 'Login in order to use this feature.',
 });
 
 export const ForbiddenError = createError(ERROR.FORBIDDEN, {
