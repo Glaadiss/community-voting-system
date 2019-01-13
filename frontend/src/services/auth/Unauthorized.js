@@ -11,10 +11,10 @@ export default function withUnauthorized(Component) {
     };
 
     render() {
-      let { from } = this.props.location.state || {
+      const { from } = this.props.location.state || {
         from: { pathname: '/app' },
       };
-      let { redirectToReferrer } = this.state;
+      const { redirectToReferrer } = this.state;
       return (
         <AuthContext.Consumer>
           {context =>

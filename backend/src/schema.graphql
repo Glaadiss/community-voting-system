@@ -1,6 +1,10 @@
+scalar DateTime
+
 type Query {
   contests: [Contest!]!
+  projects: [Project!]!
   contest(contestId: ID!): Contest
+  project(projectId: ID!): Project
   users: [User!]!
 }
 
@@ -8,9 +12,24 @@ type Mutation {
   createUser(data: CreateUserInput!): AuthPayload
   createOperator(data: CreateOperatorInput): AuthPayload
   createAdmin(data: CreateAdminInput): AuthPayload
-  createContest(name: String!): Contest
+  createContest(data: CreateContestInput): Contest
+  createProject(data: CreateProjectInput): Project
   addProjectsToContest(contestId: ID!, projectName: String!): Contest
   login(data: LoginUserInput!): AuthPayload
+}
+
+input CreateProjectInput {
+  title: String!
+  description: String
+  isPublished: Boolean!
+}
+
+input CreateContestInput {
+  title: String!
+  description: String
+  startDate: DateTime
+  endDate: DateTime
+  isPublished: Boolean!
 }
 
 input CreateUserInput {
@@ -54,18 +73,22 @@ type User {
 
 type Contest {
   id: ID!
-  name: String!
-  projects: [Project!]!
+  title: String!
+  description: String!
+  startDate: DateTime
+  endDate: DateTime
+  isPublished: Boolean!
 }
 
 type Project {
   id: ID!
-  name: String!
-  contests: [Contest!]!
+  title: String!
+  description: String!
+  isPublished: Boolean!
 }
 
 enum RoleType {
-    user
-    operator
-    admin
+  user
+  operator
+  admin
 }

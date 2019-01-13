@@ -3,7 +3,7 @@ import { prisma, Prisma } from '../../prisma/generated/prisma-client';
 import { ForbiddenError, UnauthorizedError } from '../errorTypes';
 import { ROLE } from '../utils/customTypes';
 
-//MOVE TO ENV
+// MOVE TO ENV
 const SECRET = 'toReplaceSomeday';
 
 export function sign(user) {
