@@ -20,6 +20,7 @@ import styles from './styles';
 import Contests from '../Contests';
 import { AuthContext } from '../../App';
 import DrawerContent from '../../components/DrawerContent';
+import ContestsForm from '../Contests/form';
 
 function Layout(props) {
   const [open, setOpen] = useState(false);
@@ -130,6 +131,7 @@ function Layout(props) {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Route path="/app/contests" component={Contests} />
+        <Route path="/app/contestForm" component={ContestsForm} />
       </main>
     </div>
   );

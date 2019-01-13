@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@date-io/date-fns": "^1.0.1",
     "@material-ui/core": "^3.7.0",
     "@material-ui/icons": "^3.0.1",
     "apollo-boost": "^0.1.23",
@@ -11,8 +12,10 @@
     "apollo-link-context": "^1.0.12",
     "apollo-link-http": "^1.5.9",
     "classnames": "^2.2.6",
+    "date-fns": "^2.0.0-alpha.21",
     "graphql": "^14.0.2",
     "graphql-tag": "^2.10.0",
+    "material-ui-pickers": "^2.1.1",
     "prop-types": "^15.6.2",
     "react": "^16.7.0-alpha.2",
     "react-apollo": "^2.3.3",

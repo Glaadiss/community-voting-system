@@ -19,7 +19,8 @@ function Contests() {
       {context => (
         <Query query={GET_CONTESTS} pollInterval={2000}>
           {({ loading, error, data }) => {
-            if (loading) return null;
+            if (loading || !data) return null;
+            if (error) return error.message;
             return <ContestTable rows={data.contests} />;
           }}
         </Query>

@@ -42,12 +42,12 @@ function getContentByRole(role) {
       ];
     case 'operator':
       return [
-        { text: 'Zobacz listę projektów', link: '/app' },
-        { text: 'Utwórz nowy konkurs', link: '/app' },
-        { text: 'Utwórz nowy projekt', link: '/app' },
-        { text: 'wyniki zamkniętych konkursów', link: '/app' },
-        { text: 'Edytuj zamknięty konkrurs', link: '/app' },
-        { text: 'Generuj raport', link: '/app' },
+        { text: 'Zobacz listę projektów', link: '/app/projects' },
+        { text: 'Zobacz konkursów', link: '/app/contests' },
+        { text: 'Utwórz nowy konkurs', link: '/app/contestForm' },
+        { text: 'Utwórz nowy projekt', link: '/app/projectForm' },
+        { text: 'Wyniki konkursów', link: '/app/scores' },
+        { text: 'Generuj raport', link: '/app/generateRaport' },
       ];
     case 'admin':
       return [
