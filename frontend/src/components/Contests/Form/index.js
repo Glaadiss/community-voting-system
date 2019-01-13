@@ -10,6 +10,31 @@ import {
 import Grid from '@material-ui/core/Grid';
 import { withStyles, TextField, Button, Switch } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
+import gql from 'graphql-tag';
+import { Mutation } from 'react-apollo';
+import Snackbar from '../../Snackbar';
+
+const CONTEST_MUTATION = gql`
+  mutation Mutation(
+    $title: String!
+    $description: String!
+    $isPublished: Boolean!
+    $startDate: DateTime!
+    $endDate: DateTime!
+  ) {
+    createContest(
+      data: {
+        title: $title
+        description: $description
+        isPublished: $isPublished
+        startDate: $startDate
+        endDate: $endDate
+      }
+    ) {
+      id
+    }
+  }
+`;
 
 const styles = theme => ({
   grid: {
@@ -24,14 +49,32 @@ function ContestsForm(props) {
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  //   const [image, setImage] = useState('');
+  const [message, setSnackbarMessage] = useState('');
   const [isPublished, setPublished] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const [startTime, setStartTime] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [endTime, setEndTime] = useState(new Date());
+
+  function handleSubmit(submit) {
+    return () =>
+      submit({
+        variables: {
+          title,
+          description,
+          isPublished,
+          startDate: new Date(startDate),
+          endDate: new Date(endDate),
+        },
+      });
+  }
   return (
     <form>
+      <Snackbar
+        open={!!message}
+        message={message}
+        setSnackbarMessage={setSnackbarMessage}
+      />
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <Grid
           spacing={40}
@@ -108,9 +151,26 @@ function ContestsForm(props) {
           <Divider />
 
           <Grid item xs={12}>
-            <Button variant="contained" color="primary" fullWidth>
-              Dodaj konkurs!
-            </Button>
+            <Mutation
+              mutation={CONTEST_MUTATION}
+              onCompleted={() => {
+                setTitle('');
+                setDescription('');
+                setSnackbarMessage('Contest added');
+              }}
+              onError={err => setSnackbarMessage(err.message)}
+            >
+              {submit => (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  onClick={handleSubmit(submit)}
+                >
+                  Dodaj Konkurs!
+                </Button>
+              )}
+            </Mutation>
           </Grid>
         </Grid>
       </MuiPickersUtilsProvider>

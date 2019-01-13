@@ -21,6 +21,8 @@ import Contests from '../Contests';
 import { AuthContext } from '../../App';
 import DrawerContent from '../../components/DrawerContent';
 import ContestsForm from '../Contests/form';
+import Projects from '../Projects';
+import ProjectsForm from '../Projects/form';
 
 function Layout(props) {
   const [open, setOpen] = useState(false);
@@ -75,7 +77,7 @@ function Layout(props) {
               <Link to="/app" {...prop} style={{ textDecoration: 'none' }} />
             )}
           >
-            Projekty Gminne XD
+            Projekty Gminne
           </Typography>
           <IconButton
             aria-owns={openRightIcon ? 'menu-appbar' : null}
@@ -131,7 +133,9 @@ function Layout(props) {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Route path="/app/contests" component={Contests} />
+        <Route path="/app/projects" component={Projects} />
         <Route path="/app/contestForm" component={ContestsForm} />
+        <Route path="/app/projectForm" component={ProjectsForm} />
       </main>
     </div>
   );

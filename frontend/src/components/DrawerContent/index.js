@@ -43,7 +43,7 @@ function getContentByRole(role) {
     case 'operator':
       return [
         { text: 'Zobacz listę projektów', link: '/app/projects' },
-        { text: 'Zobacz konkursów', link: '/app/contests' },
+        { text: 'Zobacz listę konkursów', link: '/app/contests' },
         { text: 'Utwórz nowy konkurs', link: '/app/contestForm' },
         { text: 'Utwórz nowy projekt', link: '/app/projectForm' },
         { text: 'Wyniki konkursów', link: '/app/scores' },

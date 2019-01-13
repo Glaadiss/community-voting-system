@@ -32,7 +32,6 @@ function ContestTable(props) {
             <TableCell>Title</TableCell>
             <TableCell>Description</TableCell>
             <TableCell>Published?</TableCell>
-            <TableCell>Date</TableCell>
             <TableCell align="right" />
           </TableRow>
         </TableHead>
@@ -47,11 +46,6 @@ function ContestTable(props) {
               </TableCell>
               <TableCell component="th" scope="row">
                 {row.isPublished}
-              </TableCell>
-              <TableCell component="th" scope="row">
-                {row.startDate}
-                {' - '}
-                {row.endDate}
               </TableCell>
               <TableCell align="right">
                 <Button
