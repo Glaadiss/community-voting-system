@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node src/index.ts",
-    "update": "prisma deploy && prisma generate",
+    "update": "prisma deploy --force && prisma generate",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

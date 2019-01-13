@@ -1,8 +1,8 @@
 import { formatError } from 'apollo-errors';
 import { GraphQLServer, Options } from 'graphql-yoga';
-import { checkUser } from './services/auth';
-import Query from './resolvers/Query';
 import Mutation from './resolvers/Mutation';
+import Query from './resolvers/Query';
+import { checkUser } from './services/auth';
 
 const options: Options = {
   formatError,
@@ -12,7 +12,7 @@ const server = new GraphQLServer({
   typeDefs: 'src/schema.graphql',
   resolvers: {
     Query,
-    Mutation
+    Mutation,
   },
   context: request => ({
     request,
