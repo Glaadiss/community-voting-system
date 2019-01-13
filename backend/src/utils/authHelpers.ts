@@ -1,37 +1,24 @@
 import { ROLE } from './customTypes';
 
 export const isUserAllowed = (context) => {
-    if (!context.user || !context.user.role) {
-        return false
-    }
-    const rolesAllowed = [ROLE.USER, ROLE.OPERATOR, ROLE.ADMIN];
-    const { role } = context.user;
-    if (rolesAllowed.some(el => el === role)) {
-        return true;
-    }
-    return false
+    return isRoleAllowed(context, [ROLE.USER, ROLE.OPERATOR, ROLE.ADMIN]);
 }
 
 export const isOperatorAllowed = (context) => {
-    if (!context.user || !context.user.role) {
-        return false
-    }
-    const rolesAllowed = [ROLE.OPERATOR, ROLE.ADMIN];
-    const { role } = context.user;
-    if (rolesAllowed.some(el => el === role)) {
-        return true;
-    }
-    return false
+    return isRoleAllowed(context, [ROLE.OPERATOR, ROLE.ADMIN]);
 }
 
 export const isAdminAllowed = (context) => {
+    return isRoleAllowed(context, [ROLE.ADMIN]);
+}
+
+const isRoleAllowed = (context, roles) => {
     if (!context.user || !context.user.role) {
-        return false
+        return false;
     }
-    const rolesAllowed = [ROLE.ADMIN];
     const { role } = context.user;
-    if (rolesAllowed.some(el => el === role)) {
+    if (roles.some(el => el === role)) {
         return true;
     }
-    return false
+    return false;
 }
