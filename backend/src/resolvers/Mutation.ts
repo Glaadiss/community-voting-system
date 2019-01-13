@@ -7,79 +7,18 @@ import { Context, ROLE } from '../utils/customTypes';
 
 const Mutation = {
     createContest(_, args, context: Context) {
-        return allowOperator(context).createContest({
+        return allowOperator(context).mutation.createContest({
             ...args.data,
         });
     },
-<<<<<<< HEAD
     createProject(_, args, context: Context) {
-        return allowOperator(context).createProject({
+        return allowOperator(context).mutation.createProject({
             ...args.data,
         });
-=======
-    async createAdmin(_, { data }, context: Context) {
-        if (!validatePassword(data.password))
-            throw new BadData({
-                data: {
-                    additional_info: 'Password must have at least 8 characters and contain: 1 upper case character, 1 lower case characterm, 1 number, 1 special character.'
-                }
-            });
-        if (!validateEmail(data.email))
-            throw new BadData({
-                data: {
-                    additional_info: 'Invalid email address.'
-                }
-            });
-        const emailExists = await prisma.user({ email: data.email });
-        if (emailExists)
-            throw new BadData({
-                data: {
-                    additional_info: 'User with this email already exists.'
-                }
-            });
-        const passwordHash = await bcrypt.hash(data.password, 5);
-        const user = await allowAdmin(context).createUser({
-            email: data.email.toLowerCase(),
-            role: ROLE.ADMIN,
-            passwordHash
-        });
-        const token = sign(user);
-        return { user, token };
-    },
-    async createOperator(_, { data }, context: Context) {
-        if (!validatePassword(data.password))
-            throw new BadData({
-                data: {
-                    additional_info: 'Password must have at least 8 characters and contain: 1 upper case character, 1 lower case characterm, 1 number, 1 special character.'
-                }
-            });
-        if (!validateEmail(data.email))
-            throw new BadData({
-                data: {
-                    additional_info: 'Invalid email address.'
-                }
-            });
-        const emailExists = await prisma.user({ email: data.email });
-        if (emailExists)
-            throw new BadData({
-                data: {
-                    additional_info: 'User with this email already exists.'
-                }
-            });
-        const passwordHash = await bcrypt.hash(data.password, 5);
-        const user = await allowAdmin(context).createUser({
-            email: data.email.toLowerCase(),
-            name: data.name,
-            role: ROLE.OPERATOR,
-            passwordHash
-        });
-        const token = sign(user);
-        return { user, token };
->>>>>>> Added user to authPayload
     },
     createAdmin: createAccount({
         createFunction: ({ context, data, common }) =>
-            allowAdmin(context).createUser({
+            allowAdmin(context).mutation.createUser({
                 ...common,
                 role: ROLE.ADMIN,
             }),
@@ -88,7 +27,7 @@ const Mutation = {
 
     createOperator: createAccount({
         createFunction: ({ context, data, common }) =>
-            allowAdmin(context).createUser({
+            allowAdmin(context).mutation.createUser({
                 ...common,
                 name: data.name,
                 role: ROLE.OPERATOR,
@@ -98,7 +37,7 @@ const Mutation = {
 
     createUser: createAccount({
         createFunction: ({ context, data, common }) =>
-            allowOperator(context).createUser({
+            allowOperator(context).mutation.createUser({
                 ...common,
                 name: data.name,
                 pesel: data.pesel,
@@ -115,7 +54,6 @@ const Mutation = {
                         },
                     });
                 }
-<<<<<<< HEAD
             },
             async data => {
                 const emailExists = await prisma.user({ email: data.email });
@@ -132,21 +70,6 @@ const Mutation = {
         ],
     }),
 
-=======
-            });
-        const passwordHash = await bcrypt.hash(data.password, 5);
-        const user = await prisma.createUser({
-            email: data.email.toLowerCase(),
-            name: data.name,
-            postalCode: data.postalCode,
-            pesel: data.pesel,
-            role: ROLE.USER,
-            passwordHash
-        });
-        const token = sign(user);
-        return { user, token };
-    },
->>>>>>> Added user to authPayload
     async login(_, { data }, context: Context) {
         const user = await prisma.user({ email: data.email });
         if (!user) {
