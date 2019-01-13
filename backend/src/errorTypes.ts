@@ -11,7 +11,7 @@ export const UnauthorizedError = createError(ERROR.UNAUTHORIZED, {
 });
 
 export const ForbiddenError = createError(ERROR.FORBIDDEN, {
-  message: 'You don\'t have permission to view this assets.',
+  message: 'You don\'t have permission to do that.',
 });
 
 export const BadData = createError(ERROR.BAD_DATA, {

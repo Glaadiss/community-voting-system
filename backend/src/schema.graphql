@@ -1,36 +1,24 @@
-scalar DateTime
+# import ProjectOrderByInput, UserOrderByInput from './generated/prisma.graphql'
 
 type Query {
-  contests: [Contest!]!
-  projects: [Project!]!
-  contest(contestId: ID!): Contest
-  project(projectId: ID!): Project
-  users: [User!]!
+  contests(query: String, first: Int, skip: Int, after: String, orderBy: ProjectOrderByInput): [Contest!]!
+  contest(id: ID!): Contest!
+  projects(query: String, first: Int, skip: Int, after: String, orderBy: ProjectOrderByInput): [Project!]!
+  project(id: ID!): Project!
+  users(query: String, first: Int, skip: Int, after: String, orderBy: UserOrderByInput): [User!]!
 }
 
 type Mutation {
-  createUser(data: CreateUserInput!): AuthPayload
-  createOperator(data: CreateOperatorInput): AuthPayload
-  createAdmin(data: CreateAdminInput): AuthPayload
-  createContest(data: CreateContestInput): Contest
-  createProject(data: CreateProjectInput): Project
+  createUser(data: CreateUserInput!): AuthPayload!
+  createOperator(data: CreateOperatorInput!): AuthPayload!
+  createAdmin(data: CreateAdminInput!): AuthPayload!
+  createContest(data: CreateContestInput!): Contest!
+  createProject(data: CreateProjectInput!): Project!
   addProjectsToContest(contestId: ID!, projectName: String!): Contest
-  login(data: LoginUserInput!): AuthPayload
+  login(data: LoginUserInput!): AuthPayload!
 }
 
-input CreateProjectInput {
-  title: String!
-  description: String
-  isPublished: Boolean!
-}
-
-input CreateContestInput {
-  title: String!
-  description: String
-  startDate: DateTime
-  endDate: DateTime
-  isPublished: Boolean!
-}
+scalar DateTime
 
 input CreateUserInput {
   email: String!
@@ -61,6 +49,24 @@ type AuthPayload {
   token: String!
 }
 
+input CreateProjectInput {
+  title: String!
+  description: String
+  image: String
+  contest: ID
+  isPublished: Boolean!
+}
+
+input CreateContestInput {
+  title: String!
+  image: String
+  description: String
+  projects: [ID!]
+  startDate: DateTime
+  endDate: DateTime
+  isPublished: Boolean!
+}
+
 type User {
   id: ID!
   email: String!
@@ -74,16 +80,28 @@ type User {
 type Contest {
   id: ID!
   title: String!
-  description: String!
+  image: String
+  description: String
+  projects: [Project!]
+  votes: [Vote!]
   startDate: DateTime
   endDate: DateTime
   isPublished: Boolean!
 }
 
+type Vote {
+  id: ID!
+  user: User!
+  project: Project!
+  contest: Contest!
+}
+
 type Project {
   id: ID!
   title: String!
-  description: String!
+  description: String
+  image: String
+  contests: [Contest!]
   isPublished: Boolean!
 }
 
