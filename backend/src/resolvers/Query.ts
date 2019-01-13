@@ -5,7 +5,7 @@ import {
 } from '../services/auth';
 
 const Query: any = {
-    contests(_, { }, context: Context, info) {
+    contests(_, args, context: Context) {
         return allowUser(context).contests();
     },
     contest(_, { contestId }, context) {
