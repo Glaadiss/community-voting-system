@@ -6,6 +6,8 @@ type Query {
 
 type Mutation {
   createUser(data: CreateUserInput!): AuthPayload
+  createOperator(data: CreateOperatorInput): AuthPayload
+  createAdmin(data: CreateAdminInput): AuthPayload
   createContest(name: String!): Contest
   addProjectsToContest(contestId: ID!, projectName: String!): Contest
   login(data: LoginUserInput!): AuthPayload
@@ -24,7 +26,19 @@ input LoginUserInput {
   password: String!
 }
 
+input CreateOperatorInput {
+  email: String!
+  password: String!
+  name: String!
+}
+
+input CreateAdminInput {
+  email: String!
+  password: String!
+}
+
 type AuthPayload {
+  user: User!
   token: String!
 }
 
