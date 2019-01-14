@@ -1,20 +1,46 @@
 import bcrypt = require('bcrypt');
-import { prisma } from '../../prisma/generated/prisma-client';
+import { prisma } from '../prisma';
 import { BadData } from '../errorTypes';
 import { allowAdmin, allowOperator, sign } from '../services/auth';
 import { createAccount } from '../utils/createAccount';
 import { Context, ROLE } from '../utils/customTypes';
 
+const invalidCredentialsMsg = 'Invalid credentials.';
+const peselExistsMsg = 'User with this pesel number already exists.';
+
 const Mutation = {
-    createContest(_, args, context: Context) {
-        return allowOperator(context).mutation.createContest({
-            ...args.data,
-        });
+    async createProject(_, args, context: Context, info) {
+        let input = {
+            data: {
+                ...args.data
+            }
+        }
+        if (args.data.contest)
+            input.data.contests = {
+                connect: {
+                    id: args.data.contest
+                }
+            }
+        return allowOperator(context).mutation.createProject(input, info);
     },
-    createProject(_, args, context: Context) {
-        return allowOperator(context).mutation.createProject({
-            ...args.data,
-        });
+    async createContest(_, args, context: Context, info) {
+        let input = {
+            data: {
+                ...args.data
+            }
+        }
+        let projectIds = [];
+        if (args.data.projects) {
+            projectIds = args.data.projects.map(element => {
+                return {
+                    id: element
+                }
+            });
+            input.data.projects = {
+                connect: projectIds
+            }
+        }
+        return allowOperator(context).mutation.createContest(input, info);
     },
     createAdmin: createAccount({
         createFunction: ({ context, data, common }) =>
@@ -37,7 +63,7 @@ const Mutation = {
 
     createUser: createAccount({
         createFunction: ({ context, data, common }) =>
-            allowOperator(context).mutation.createUser({
+            prisma.mutation.createUser({
                 ...common,
                 name: data.name,
                 pesel: data.pesel,
@@ -46,36 +72,24 @@ const Mutation = {
             }),
         validators: [
             async data => {
-                const peselExists = await prisma.user({ pesel: data.pesel });
+                const peselExists = await prisma.query.user({ pesel: data.pesel });
                 if (peselExists) {
                     throw new BadData({
                         data: {
-                            additional_info: 'User with this pesel number already exists.',
+                            additional_info: peselExistsMsg,
                         },
                     });
                 }
-            },
-            async data => {
-                const emailExists = await prisma.user({ email: data.email });
-                if (emailExists)
-                    throw new BadData({
-                        data: {
-                            additional_info: 'User with this email already exists.'
-                        }
-                    });
-            },
-            async data => {
-
             }
         ],
     }),
 
     async login(_, { data }, context: Context) {
-        const user = await prisma.user({ email: data.email });
+        const user = await prisma.query.user({ email: data.email });
         if (!user) {
             throw new BadData({
                 data: {
-                    additional_info: 'Invalid credentials.',
+                    additional_info: invalidCredentialsMsg,
                 },
             });
         }
@@ -86,7 +100,7 @@ const Mutation = {
         if (!passwordCorrect) {
             throw new BadData({
                 data: {
-                    additional_info: 'Invalid credentials.',
+                    additional_info: invalidCredentialsMsg,
                 },
             });
         }
