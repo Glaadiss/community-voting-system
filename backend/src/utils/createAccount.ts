@@ -22,7 +22,7 @@ function createAccount({ createFunction, validators }) {
         },
       });
     }
-    const emailExists = await prisma.query.user({ email: data.email });
+    const emailExists = await prisma.query.user({ where: { email: data.email } });
     if (emailExists) {
       throw new BadData({
         data: {

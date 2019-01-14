@@ -45,8 +45,10 @@ const Mutation = {
     createAdmin: createAccount({
         createFunction: ({ context, data, common }) =>
             allowAdmin(context).mutation.createUser({
-                ...common,
-                role: ROLE.ADMIN,
+                data: {
+                    ...common,
+                    role: ROLE.ADMIN,
+                }
             }),
         validators: [],
     }),
@@ -54,9 +56,11 @@ const Mutation = {
     createOperator: createAccount({
         createFunction: ({ context, data, common }) =>
             allowAdmin(context).mutation.createUser({
-                ...common,
-                name: data.name,
-                role: ROLE.OPERATOR,
+                data: {
+                    ...common,
+                    name: data.name,
+                    role: ROLE.OPERATOR,
+                }
             }),
         validators: [],
     }),
@@ -64,15 +68,17 @@ const Mutation = {
     createUser: createAccount({
         createFunction: ({ context, data, common }) =>
             prisma.mutation.createUser({
-                ...common,
-                name: data.name,
-                pesel: data.pesel,
-                postalCode: data.postalCode,
-                role: ROLE.USER,
+                data: {
+                    ...common,
+                    name: data.name,
+                    pesel: data.pesel,
+                    postalCode: data.postalCode,
+                    role: ROLE.USER,
+                }
             }),
         validators: [
             async data => {
-                const peselExists = await prisma.query.user({ pesel: data.pesel });
+                const peselExists = await prisma.query.user({ where: { pesel: data.pesel } });
                 if (peselExists) {
                     throw new BadData({
                         data: {
@@ -85,7 +91,7 @@ const Mutation = {
     }),
 
     async login(_, { data }, context: Context) {
-        const user = await prisma.query.user({ email: data.email });
+        const user = await prisma.query.user({ where: { email: data.email } });
         if (!user) {
             throw new BadData({
                 data: {
@@ -107,7 +113,7 @@ const Mutation = {
         const token = sign(user);
         return {
             token,
-            user: { role: user.role, name: user.name, email: user.email },
+            user,
         };
     },
 };

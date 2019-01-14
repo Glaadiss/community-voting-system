@@ -1,9 +1,8 @@
 import { allowAdmin, allowUser } from '../services/auth';
 import { Context } from '../utils/customTypes';
 import { isOperatorAllowed } from '../utils/authHelpers';
-import { BadData } from '../errorTypes';
+import { BadData, ForbiddenError } from '../errorTypes';
 import { projectNotFoundErrorMessage, contestNotFoundErrorMessage } from '../utils/errorMessages';
-
 
 const Query: any = {
     contests(_, args, context: Context, info) {

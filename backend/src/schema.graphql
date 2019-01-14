@@ -45,7 +45,7 @@ input CreateAdminInput {
 }
 
 type AuthPayload {
-  user: User!
+  user: UserSimplified!
   token: String!
 }
 
@@ -65,6 +65,15 @@ input CreateContestInput {
   startDate: DateTime
   endDate: DateTime
   isPublished: Boolean!
+}
+
+type UserSimplified {
+  id: ID!
+  email: String!
+  role: RoleType!
+  name: String!
+  postalCode: String!
+  pesel: String!
 }
 
 type User {
