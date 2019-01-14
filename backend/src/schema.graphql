@@ -6,6 +6,7 @@ type Query {
   projects(query: String, first: Int, skip: Int, after: String, orderBy: ProjectOrderByInput): [Project!]!
   project(id: ID!): Project!
   users(query: String, first: Int, skip: Int, after: String, orderBy: UserOrderByInput): [User!]!
+  user(id: ID!): UserOutput!
 }
 
 type Mutation {
@@ -45,7 +46,7 @@ input CreateAdminInput {
 }
 
 type AuthPayload {
-  user: UserSimplified!
+  user: UserOutput!
   token: String!
 }
 
@@ -67,7 +68,7 @@ input CreateContestInput {
   isPublished: Boolean!
 }
 
-type UserSimplified {
+type UserOutput {
   id: ID!
   email: String!
   role: RoleType!

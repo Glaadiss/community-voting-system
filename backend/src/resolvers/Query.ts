@@ -1,7 +1,7 @@
 import { allowAdmin, allowUser } from '../services/auth';
 import { Context } from '../utils/customTypes';
-import { isOperatorAllowed } from '../utils/authHelpers';
-import { BadData, ForbiddenError } from '../errorTypes';
+import { isOperatorAllowed, isUserAllowed } from '../utils/authHelpers';
+import { BadData, ForbiddenError, UnauthorizedError } from '../errorTypes';
 import { projectNotFoundErrorMessage, contestNotFoundErrorMessage } from '../utils/errorMessages';
 
 const Query: any = {
@@ -49,6 +49,15 @@ const Query: any = {
         if (args.query)
             opArgs.where.name_contains = args.query;
         return allowAdmin(context).query.users(opArgs, info);
+    },
+    user(_, args, context: Context, info) {
+        if (!isUserAllowed(context))
+            throw new ForbiddenError();
+        console.log(context)
+        const userId = context.user.id;
+        if (userId !== args.id && !isOperatorAllowed(context))
+            throw new ForbiddenError();
+        return allowUser(context).query.user({ where: { id: args.id } }, info);
     },
     projects(_, args, context: Context, info) {
         const opArgs: any = {

@@ -9,7 +9,7 @@ const SECRET = 'toReplaceSomeday';
 export function sign(user) {
   delete user.passwordHash;
   return jwt.sign(
-    user,
+    { id: user.id, email: user.email, name: user.name, role: user.role },
     SECRET,
   );
 }

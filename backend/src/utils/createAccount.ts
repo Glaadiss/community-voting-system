@@ -36,11 +36,9 @@ function createAccount({ createFunction, validators }) {
       passwordHash,
     };
 
-    console.log('a')
     for await (const validator of validators) {
       await validator(data);
     };
-    console.log('b')
 
     const user = await createFunction({ context, data, common });
 
