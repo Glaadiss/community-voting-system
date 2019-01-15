@@ -1,7 +1,7 @@
-# import ProjectOrderByInput, UserOrderByInput from './generated/prisma.graphql'
+# import ProjectOrderByInput, UserOrderByInput, ContestOrderByInput from './generated/prisma.graphql'
 
 type Query {
-  contests(query: String, first: Int, skip: Int, after: String, orderBy: ProjectOrderByInput): [Contest!]!
+  contests(query: String, first: Int, skip: Int, after: String, orderBy: ContestOrderByInput): [Contest!]!
   contest(id: ID!): Contest!
   projects(query: String, first: Int, skip: Int, after: String, orderBy: ProjectOrderByInput): [Project!]!
   project(id: ID!): Project!
@@ -11,8 +11,11 @@ type Query {
 
 type Mutation {
   createUser(data: CreateUserInput!): AuthPayload!
+  updateUser(data: UpdateUserInput!, where: AccountWhereUniqueInput!): UserOutput!
   createOperator(data: CreateOperatorInput!): AuthPayload!
+  updateOperator(data: UpdateOperatorInput!, where: AccountWhereUniqueInput!): OperatorOutput!
   createAdmin(data: CreateAdminInput!): AuthPayload!
+  updateAdmin(data: UpdateAdminInput!, where: AccountWhereUniqueInput!): AdminOutput!
   createContest(data: CreateContestInput!): Contest!
   createProject(data: CreateProjectInput!): Project!
   addProjectsToContest(contestId: ID!, projectName: String!): Contest
@@ -27,6 +30,30 @@ input CreateUserInput {
   name: String!
   postalCode: String!
   pesel: String!
+}
+
+input UpdateUserInput {
+  email: String
+  password: String
+  name: String
+  postalCode: String
+  pesel: String
+}
+
+input UpdateOperatorInput {
+  email: String
+  password: String
+  name: String
+}
+
+input UpdateAdminInput {
+  email: String
+  password: String
+}
+
+input AccountWhereUniqueInput {
+  id: ID
+  email: String
 }
 
 input LoginUserInput {
@@ -75,6 +102,19 @@ type UserOutput {
   name: String!
   postalCode: String!
   pesel: String!
+}
+
+type OperatorOutput {
+  id: ID!
+  email: String!
+  role: RoleType!
+  name: String!
+}
+
+type AdminOutput {
+  id: ID!
+  email: String!
+  role: RoleType!
 }
 
 type User {

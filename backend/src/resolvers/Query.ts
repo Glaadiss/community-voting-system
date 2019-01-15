@@ -51,11 +51,7 @@ const Query: any = {
         return allowAdmin(context).query.users(opArgs, info);
     },
     user(_, args, context: Context, info) {
-        if (!isUserAllowed(context))
-            throw new ForbiddenError();
-        console.log(context)
-        const userId = context.user.id;
-        if (userId !== args.id && !isOperatorAllowed(context))
+        if (!isUserAllowed(context) || (context.user.id !== args.id && !isOperatorAllowed(context)))
             throw new ForbiddenError();
         return allowUser(context).query.user({ where: { id: args.id } }, info);
     },

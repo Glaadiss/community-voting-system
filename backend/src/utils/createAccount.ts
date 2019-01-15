@@ -1,10 +1,9 @@
 import bcrypt = require('bcrypt');
 import { Context } from 'graphql-yoga/dist/types';
-import { prisma } from '../prisma';
 import { BadData } from '../errorTypes';
 import { sign } from '../services/auth';
-import { validateEmail, validatePassword } from './validator';
-import { badPasswordMessage, badEmailMessage, emailExistsErrorMessage } from './errorMessages';
+import { validatePassword, validateEmail } from './validator';
+import { badPasswordMessage } from './errorMessages';
 
 function createAccount({ createFunction, validators }) {
   return async (parent, { data }, context: Context) => {
@@ -15,21 +14,9 @@ function createAccount({ createFunction, validators }) {
         },
       });
     }
-    if (!validateEmail(data.email)) {
-      throw new BadData({
-        data: {
-          additional_info: badEmailMessage,
-        },
-      });
-    }
-    const emailExists = await prisma.query.user({ where: { email: data.email } });
-    if (emailExists) {
-      throw new BadData({
-        data: {
-          additional_info: emailExistsErrorMessage,
-        },
-      });
-    }
+
+    await validateEmail(data.email);
+
     const passwordHash = await bcrypt.hash(data.password, 5);
     const common = {
       email: data.email.toLowerCase(),

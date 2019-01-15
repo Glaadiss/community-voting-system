@@ -1,8 +1,9 @@
 import bcrypt = require('bcrypt');
 import { prisma } from '../prisma';
 import { BadData } from '../errorTypes';
-import { allowAdmin, allowOperator, sign } from '../services/auth';
+import { allowAdmin, allowOperator, sign, allowUser } from '../services/auth';
 import { createAccount } from '../utils/createAccount';
+import { updateAccount } from '../utils/updateAccount';
 import { Context, ROLE } from '../utils/customTypes';
 
 const invalidCredentialsMsg = 'Invalid credentials.';
@@ -89,7 +90,53 @@ const Mutation = {
             }
         ],
     }),
-
+    updateUser: updateAccount({
+        updateFunction: ({ context, data, common, where, info }) =>
+            allowUser(context).mutation.updateUser({
+                data: {
+                    ...common,
+                    name: data.name,
+                    pesel: data.pesel,
+                    postalCode: data.postalCode,
+                },
+                where: where
+            }, info),
+        validators: [
+            async data => {
+                if (data.pesel) {
+                    const peselExists = await prisma.query.user({ where: { pesel: data.pesel } });
+                    if (peselExists) {
+                        throw new BadData({
+                            data: {
+                                additional_info: peselExistsMsg,
+                            },
+                        });
+                    }
+                }
+            }
+        ],
+    }),
+    updateOperator: updateAccount({
+        updateFunction: ({ context, data, common, where, info }) =>
+            allowOperator(context).mutation.updateUser({
+                data: {
+                    ...common,
+                    name: data.name,
+                },
+                where: where
+            }, info),
+        validators: [],
+    }),
+    updateAdmin: updateAccount({
+        updateFunction: ({ context, data, common, where, info }) =>
+            allowAdmin(context).mutation.updateUser({
+                data: {
+                    ...common,
+                },
+                where: where
+            }, info),
+        validators: [],
+    }),
     async login(_, { data }, context: Context) {
         const user = await prisma.query.user({ where: { email: data.email } });
         if (!user) {
