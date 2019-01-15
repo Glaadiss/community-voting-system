@@ -1,7 +1,7 @@
 import { allowAdmin, allowUser } from '../services/auth';
 import { Context } from '../utils/customTypes';
 import { isOperatorAllowed, isUserAllowed } from '../utils/authHelpers';
-import { BadData, ForbiddenError, UnauthorizedError } from '../errorTypes';
+import { BadData, ForbiddenError } from '../errorTypes';
 import { projectNotFoundErrorMessage, contestNotFoundErrorMessage } from '../utils/errorMessages';
 
 const Query: any = {
@@ -34,7 +34,7 @@ const Query: any = {
         if (!isOperatorAllowed(context) && !contest.isPublished)
             throw new BadData({
                 data: {
-                    additional_info: projectNotFoundErrorMessage
+                    additional_info: contestNotFoundErrorMessage
                 }
             });
         return contest;
@@ -88,7 +88,7 @@ const Query: any = {
         if (!isOperatorAllowed(context) && !project.isPublished)
             throw new BadData({
                 data: {
-                    additional_info: contestNotFoundErrorMessage
+                    additional_info: projectNotFoundErrorMessage
                 }
             });
         return project;
