@@ -3,7 +3,9 @@
   "extends": ["tslint:recommended"],
   "jsRules": {},
   "rules": {
+    "ordered-imports": false,
     "quotemark": [true, "single"],
+    "trailing-comma": false,
     "arrow-parens": false,
     "no-unused-variable": { "severity": "warning" },
     "object-literal-sort-keys": false,

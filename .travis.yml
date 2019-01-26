@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+  - "10"
+
+script:
+  - cd backend
+  - npm run lint
+  - cd ..
+  - cd frontend
+  - npm run lint

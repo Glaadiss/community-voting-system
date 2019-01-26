@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { AuthContext } from '../../App';
 
-export default function withUnauthorized(Component) {
-  return class Unauthorized extends React.Component {
+function withUnauthorized(Component) {
+  class Unauthorized extends React.Component {
     state = { redirectToReferrer: false };
 
     setRedirect = () => {
@@ -11,7 +12,8 @@ export default function withUnauthorized(Component) {
     };
 
     render() {
-      const { from } = this.props.location.state || {
+      const { location } = this.props;
+      const { from } = location.state || {
         from: { pathname: '/app' },
       };
       const { redirectToReferrer } = this.state;
@@ -27,5 +29,13 @@ export default function withUnauthorized(Component) {
         </AuthContext.Consumer>
       );
     }
+  }
+
+  Unauthorized.propTypes = {
+    location: PropTypes.object.isRequired,
   };
+
+  return Unauthorized;
 }
+
+export default withUnauthorized;

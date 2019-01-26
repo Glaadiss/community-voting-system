@@ -10,8 +10,8 @@ function createAccount({ createFunction, validators }) {
     if (!validatePassword(data.password)) {
       throw new BadData({
         data: {
-          additional_info: badPasswordMessage,
-        },
+          additional_info: badPasswordMessage
+        }
       });
     }
 
@@ -20,12 +20,12 @@ function createAccount({ createFunction, validators }) {
     const passwordHash = await bcrypt.hash(data.password, 5);
     const common = {
       email: data.email.toLowerCase(),
-      passwordHash,
+      passwordHash
     };
 
     for await (const validator of validators) {
       await validator(data);
-    };
+    }
 
     const user = await createFunction({ context, data, common });
 
