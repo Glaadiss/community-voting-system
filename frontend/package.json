@@ -24,7 +24,7 @@
     "react-scripts": "2.1.1"
   },
   "scripts": {
-    "lint": "./node_modules/.bin/eslint src/**/*.js",
+    "lint": "eslint src/**/*.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

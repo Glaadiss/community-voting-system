@@ -8,7 +8,7 @@
     "update": "prisma deploy --force && prisma generate",
     "get-schema": "graphql get-schema -p prisma",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "./node_modules/.bin/tslint src/**/*.ts"
+    "lint": "tslint src/**/*.ts"
   },
   "keywords": [],
   "author": "",
