@@ -8,4 +8,5 @@ script:
   - npm run lint
   - cd ..
   - cd frontend
+  - npm install
   - npm run lint
