@@ -1,6 +1,6 @@
-import { prisma } from "../prisma";
-import { badEmailMessage, emailExistsErrorMessage } from "./errorMessages";
-import { BadData } from "../errorTypes";
+import { prisma } from '../prisma';
+import { badEmailMessage, emailExistsErrorMessage } from './errorMessages';
+import { BadData } from '../errorTypes';
 
 /**
  * Validate email according to RFC 2822 standard.
@@ -23,18 +23,22 @@ export function validatePassword(password) {
 }
 
 export async function validateEmail(email) {
-  if (!validateEmailFormat(email))
+  if (!validateEmailFormat(email)) {
     throw new BadData({
       data: {
-        additional_info: badEmailMessage,
+        additional_info: badEmailMessage
       }
     });
+  }
 
-  const emailExists = await prisma.query.user({ where: { email: email.toLowerCase() } });
-  if (emailExists)
+  const emailExists = await prisma.query.user({
+    where: { email: email.toLowerCase() }
+  });
+  if (emailExists) {
     throw new BadData({
       data: {
-        additional_info: emailExistsErrorMessage,
+        additional_info: emailExistsErrorMessage
       }
     });
+  }
 }

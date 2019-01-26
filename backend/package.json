@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node src/index.ts",
-
     "update": "prisma deploy --force && prisma generate",
     "get-schema": "graphql get-schema -p prisma",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "tslint src/**/*.ts"
   },
   "keywords": [],
   "author": "",

@@ -40,7 +40,6 @@ function SimpleSnackbar(props) {
             color="secondary"
             size="small"
             onClick={handleClose}
-            children=""
           />,
           <IconButton
             key="close"
