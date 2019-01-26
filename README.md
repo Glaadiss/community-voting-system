@@ -1,5 +1,7 @@
 # Community Voting System
 
+[![Build Status](https://travis-ci.com/Glaadiss/community-voting-system.svg?branch=master)](https://travis-ci.com/Glaadiss/community-voting-system)
+
 Community Voting System written with with React.js, Graphql and Prisma
 
 ## Getting Started
