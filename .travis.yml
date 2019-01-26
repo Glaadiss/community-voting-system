@@ -3,7 +3,7 @@ node_js:
   - "10"
 
 script:
-  - npm install -g eslint tslint
+  - npm install -g eslint tslint typescript
   - cd backend
   - npm run lint
   - cd ..
