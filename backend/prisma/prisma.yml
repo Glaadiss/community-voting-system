@@ -1,5 +1,3 @@
 endpoint: http://35.246.149.86
 datamodel: datamodel.prisma
-generate:
-  - generator: typescript-client
-    output: ./generated/prisma-client/
+secret: thisismysupersecrettext

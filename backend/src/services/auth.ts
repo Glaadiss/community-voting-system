@@ -1,5 +1,5 @@
 import jwt = require('jsonwebtoken');
-import { prisma, Prisma } from '../../prisma/generated/prisma-client';
+import { prisma, Prisma } from '../prisma';
 import { ForbiddenError, UnauthorizedError } from '../errorTypes';
 import { ROLE } from '../utils/customTypes';
 
@@ -7,8 +7,9 @@ import { ROLE } from '../utils/customTypes';
 const SECRET = 'toReplaceSomeday';
 
 export function sign(user) {
+  delete user.passwordHash;
   return jwt.sign(
-    { email: user.email, name: user.name, role: user.role, id: user.id },
+    { id: user.id, email: user.email, name: user.name, role: user.role },
     SECRET,
   );
 }
@@ -40,13 +41,14 @@ function allowResource(context, roles) {
 }
 
 export function allowUser(context): Prisma {
-  return allowResource(context, [ROLE.USER]);
-}
-
-export function allowAdmin(context): Prisma {
-  return allowResource(context, [ROLE.ADMIN, ROLE.OPERATOR, ROLE.USER]);
+  return allowResource(context, [ROLE.USER, ROLE.OPERATOR, ROLE.ADMIN]);
 }
 
 export function allowOperator(context): Prisma {
-  return allowResource(context, [ROLE.OPERATOR, ROLE.USER]);
+  return allowResource(context, [ROLE.OPERATOR, ROLE.ADMIN]);
 }
+
+export function allowAdmin(context): Prisma {
+  return allowResource(context, [ROLE.ADMIN]);
+}
+

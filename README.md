@@ -21,6 +21,7 @@ cd backend
 npm install
 docker-compose up -d
 npm run update
+npm run get-schema
 npm start
 ```
 

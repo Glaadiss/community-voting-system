@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node src/index.ts",
+
     "update": "prisma deploy --force && prisma generate",
+    "get-schema": "graphql get-schema -p prisma",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -15,8 +17,11 @@
     "@types/node": "^10.12.18",
     "apollo-errors": "^1.9.0",
     "bcrypt": "^3.0.2",
+    "graphql-cli": "^3.0.4",
+    "graphql-import": "^0.7.1",
     "graphql-yoga": "^1.16.9",
     "jsonwebtoken": "^8.4.0",
+    "prisma-binding": "^2.2.14",
     "prisma-client-lib": "^1.23.1"
   },
   "devDependencies": {

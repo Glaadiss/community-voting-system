@@ -1,4 +1,5 @@
 import { createError } from 'apollo-errors';
+import { unauthorizedErrorMessage, accessForbiddenErrorMessage, badDataErrorMessage } from './utils/errorMessages';
 
 enum ERROR {
   UNAUTHORIZED = 'UNAUTHORIZED',
@@ -7,13 +8,13 @@ enum ERROR {
 }
 
 export const UnauthorizedError = createError(ERROR.UNAUTHORIZED, {
-  message: 'Login in order to use the dashboard.',
+  message: unauthorizedErrorMessage
 });
 
 export const ForbiddenError = createError(ERROR.FORBIDDEN, {
-  message: 'You don\'t have permission to view this assets.',
+  message: accessForbiddenErrorMessage
 });
 
 export const BadData = createError(ERROR.BAD_DATA, {
-  message: 'Invalid data.',
+  message: badDataErrorMessage
 });
