@@ -29,6 +29,7 @@ function ContestTable(props) {
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
+            <TableCell>Photo</TableCell>
             <TableCell>Title</TableCell>
             <TableCell>Description</TableCell>
             <TableCell>Published?</TableCell>
@@ -39,13 +40,24 @@ function ContestTable(props) {
           {rows.map(row => (
             <TableRow key={row.id}>
               <TableCell component="th" scope="row">
-                {row.title}
+                {row.image && (
+                  <img src={row.image} width={100} height={100} alt="Content" />
+                )}
               </TableCell>
               <TableCell component="th" scope="row">
-                {row.description}
+                <strong>{row.title}</strong>
               </TableCell>
               <TableCell component="th" scope="row">
-                {row.isPublished}
+                <strong>{row.description}</strong>
+              </TableCell>
+              <TableCell component="th" scope="row">
+                {row.isPublished ? (
+                  <strong style={{ color: 'green', fontSize: 20 }}>
+                    {'\u2713'}
+                  </strong>
+                ) : (
+                  <span style={{ color: 'red', fontSize: 20 }}>{'\u2716'}</span>
+                )}
               </TableCell>
               <TableCell align="right">
                 <Button

@@ -4,8 +4,12 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import Note from '@material-ui/icons/Note';
+import Ballot from '@material-ui/icons/Ballot';
+import NoteAdd from '@material-ui/icons/NoteAdd';
+import LibraryAdd from '@material-ui/icons/LibraryAdd';
+import DonutSmall from '@material-ui/icons/DonutSmall';
+import EventNote from '@material-ui/icons/EventNote';
 import { AuthContext } from '../../App';
 
 export default function DrawerContent() {
@@ -19,9 +23,7 @@ export default function DrawerContent() {
               key={item.text}
               component={props => <Link to={item.link} {...props} />}
             >
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
+              <ListItemIcon>{item.Icon && <item.Icon />}</ListItemIcon>
               <ListItemText primary={item.text.toUpperCase()} />
             </ListItem>
           ))}
@@ -38,25 +40,51 @@ function getContentByRole(role) {
         {
           link: '/app/contests',
           text: 'Zobacz listę projektów',
+          Icon: Ballot,
         },
+        { text: 'Wyniki konkursów', link: '/app/scores', Icon: DonutSmall },
       ];
     case 'operator':
       return [
-        { text: 'Zobacz listę projektów', link: '/app/projects' },
-        { text: 'Zobacz listę konkursów', link: '/app/contests' },
-        { text: 'Utwórz nowy konkurs', link: '/app/contestForm' },
-        { text: 'Utwórz nowy projekt', link: '/app/projectForm' },
-        { text: 'Wyniki konkursów', link: '/app/scores' },
-        { text: 'Generuj raport', link: '/app/generateRaport' },
+        { text: 'Zobacz listę projektów', link: '/app/projects', Icon: Note },
+        { text: 'Zobacz listę konkursów', link: '/app/contests', Icon: Ballot },
+        {
+          text: 'Utwórz nowy konkurs',
+          link: '/app/contestForm',
+          Icon: NoteAdd,
+        },
+        {
+          text: 'Utwórz nowy projekt',
+          link: '/app/projectForm',
+          Icon: LibraryAdd,
+        },
+        { text: 'Wyniki konkursów', link: '/app/scores', Icon: DonutSmall },
+        {
+          text: 'Generuj raport',
+          link: '/app/generateRaport',
+          Icon: EventNote,
+        },
       ];
     case 'admin':
       return [
-        { text: 'Zobacz listę projektów', link: '/app' },
-        { text: 'Utwórz nowy konkurs', link: '/app' },
-        { text: 'Utwórz nowy projekt', link: '/app' },
-        { text: 'wyniki zamkniętych konkursów', link: '/app' },
-        { text: 'Edytuj zamknięty konkrurs', link: '/app' },
-        { text: 'Generuj raport', link: '/app' },
+        { text: 'Zobacz listę projektów', link: '/app/projects', Icon: Note },
+        { text: 'Zobacz listę konkursów', link: '/app/contests', Icon: Ballot },
+        {
+          text: 'Utwórz nowy konkurs',
+          link: '/app/contestForm',
+          Icon: NoteAdd,
+        },
+        {
+          text: 'Utwórz nowy projekt',
+          link: '/app/projectForm',
+          Icon: LibraryAdd,
+        },
+        { text: 'Wyniki konkursów', link: '/app/scores', Icon: DonutSmall },
+        {
+          text: 'Generuj raport',
+          link: '/app/generateRaport',
+          Icon: EventNote,
+        },
       ];
     default:
       return [];

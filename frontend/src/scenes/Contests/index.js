@@ -8,6 +8,7 @@ const GET_CONTESTS = gql`
   {
     contests {
       id
+      image
       title
       description
       isPublished

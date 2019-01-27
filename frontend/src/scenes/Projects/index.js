@@ -9,6 +9,7 @@ const GET_PROJECTS = gql`
     projects {
       id
       title
+      image
       description
       isPublished
     }
