@@ -11,8 +11,19 @@ import Grid from '@material-ui/core/Grid';
 import { withStyles, TextField, Button, Switch } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
 import gql from 'graphql-tag';
-import { Mutation } from 'react-apollo';
+import { Mutation, Query } from 'react-apollo';
 import Snackbar from '../../Snackbar';
+import Autocomplete from '../../Autocomplete';
+
+export const GET_PROJECTS = gql`
+  {
+    projects {
+      id
+      title
+      isPublished
+    }
+  }
+`;
 
 const CONTEST_MUTATION = gql`
   mutation Mutation(
@@ -21,6 +32,7 @@ const CONTEST_MUTATION = gql`
     $isPublished: Boolean!
     $startDate: DateTime!
     $endDate: DateTime!
+    $projects: [ID!]
   ) {
     createContest(
       data: {
@@ -29,6 +41,7 @@ const CONTEST_MUTATION = gql`
         isPublished: $isPublished
         startDate: $startDate
         endDate: $endDate
+        projects: $projects
       }
     ) {
       id
@@ -52,6 +65,7 @@ function ContestsForm(props) {
   const [message, setSnackbarMessage] = useState('');
   const [isPublished, setPublished] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
+  const [projects, setProjects] = useState([]);
   const [startTime, setStartTime] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [endTime, setEndTime] = useState(new Date());
@@ -65,6 +79,7 @@ function ContestsForm(props) {
           isPublished,
           startDate: new Date(startDate),
           endDate: new Date(endDate),
+          projects,
         },
       });
   }
@@ -141,7 +156,6 @@ function ContestsForm(props) {
           <Grid item xs={12}>
             <Switch
               fullWidth
-              primary
               checked={isPublished}
               onChange={e => setPublished(e.target.checked)}
               value="checkedA"
@@ -149,6 +163,22 @@ function ContestsForm(props) {
             Opublikowany?
           </Grid>
           <Divider />
+          <Grid item xs={12}>
+            <Query query={GET_PROJECTS} pollInterval={10000}>
+              {({ loading, error, data }) => {
+                const suggestions =
+                  loading || !data || error
+                    ? []
+                    : getAutocompleteProjects(data);
+                return (
+                  <Autocomplete
+                    suggestions={suggestions}
+                    setProjects={setProjects}
+                  />
+                );
+              }}
+            </Query>
+          </Grid>
 
           <Grid item xs={12}>
             <Mutation
@@ -181,5 +211,14 @@ function ContestsForm(props) {
 ContestsForm.propTypes = {
   classes: PropTypes.object.isRequired,
 };
+
+function getAutocompleteProjects(data) {
+  return data.projects
+    .filter(el => el.isPublished)
+    .map(el => ({
+      label: el.title,
+      value: el.id,
+    }));
+}
 
 export default withStyles(styles)(ContestsForm);

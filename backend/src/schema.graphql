@@ -1,23 +1,52 @@
 # import ProjectOrderByInput, UserOrderByInput, ContestOrderByInput from './generated/prisma.graphql'
 
 type Query {
-  contests(query: String, first: Int, skip: Int, after: String, orderBy: ContestOrderByInput): [Contest!]!
+  contests(
+    query: String
+    first: Int
+    skip: Int
+    after: String
+    orderBy: ContestOrderByInput
+  ): [Contest!]!
   contest(id: ID!): Contest!
-  projects(query: String, first: Int, skip: Int, after: String, orderBy: ProjectOrderByInput): [Project!]!
+  projects(
+    query: String
+    first: Int
+    skip: Int
+    after: String
+    orderBy: ProjectOrderByInput
+  ): [Project!]!
   project(id: ID!): Project!
-  users(query: String, first: Int, skip: Int, after: String, orderBy: UserOrderByInput): [User!]!
+  users(
+    query: String
+    first: Int
+    skip: Int
+    after: String
+    orderBy: UserOrderByInput
+  ): [User!]!
   user(id: ID!): UserOutput!
 }
 
 type Mutation {
   createUser(data: CreateUserInput!): AuthPayload!
-  updateUser(data: UpdateUserInput!, where: AccountWhereUniqueInput!): UserOutput!
+  updateUser(
+    data: UpdateUserInput!
+    where: AccountWhereUniqueInput!
+  ): UserOutput!
   createOperator(data: CreateOperatorInput!): AuthPayload!
-  updateOperator(data: UpdateOperatorInput!, where: AccountWhereUniqueInput!): OperatorOutput!
+  updateOperator(
+    data: UpdateOperatorInput!
+    where: AccountWhereUniqueInput!
+  ): OperatorOutput!
   createAdmin(data: CreateAdminInput!): AuthPayload!
-  updateAdmin(data: UpdateAdminInput!, where: AccountWhereUniqueInput!): AdminOutput!
+  updateAdmin(
+    data: UpdateAdminInput!
+    where: AccountWhereUniqueInput!
+  ): AdminOutput!
   createContest(data: CreateContestInput!): Contest!
+  updateContest(data: CreateContestInput!, where: ID): Contest!
   createProject(data: CreateProjectInput!): Project!
+  updateProject(data: CreateProjectInput!, where: ID): Project!
   addProjectsToContest(contestId: ID!, projectName: String!): Contest
   login(data: LoginUserInput!): AuthPayload!
 }

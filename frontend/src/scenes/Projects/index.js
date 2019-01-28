@@ -4,7 +4,7 @@ import { Query } from 'react-apollo';
 import { AuthContext } from '../../App';
 import ProjectTable from '../../components/Projects/Table';
 
-const GET_PROJECTS = gql`
+export const GET_PROJECTS = gql`
   {
     projects {
       id

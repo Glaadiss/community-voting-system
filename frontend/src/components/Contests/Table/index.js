@@ -95,7 +95,6 @@ ContestTable.propTypes = {
 function toLocal(date) {
   try {
     const dateObject = new Date(date);
-    console.log(dateObject.toLocaleString());
     return dateObject.toLocaleString();
   } catch (error) {
     return 'qwe';
