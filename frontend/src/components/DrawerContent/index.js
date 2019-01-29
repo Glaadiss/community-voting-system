@@ -12,6 +12,7 @@ import DonutSmall from '@material-ui/icons/DonutSmall';
 import EventNote from '@material-ui/icons/EventNote';
 import SupervisorAccount from '@material-ui/icons/SupervisorAccount';
 import GroupAdd from '@material-ui/icons/GroupAdd';
+import { Tooltip } from '@material-ui/core';
 import { AuthContext } from '../../App';
 
 export default function DrawerContent() {
@@ -25,7 +26,10 @@ export default function DrawerContent() {
               key={item.text}
               component={props => <Link to={item.link} {...props} />}
             >
-              <ListItemIcon>{item.Icon && <item.Icon />}</ListItemIcon>
+              <Tooltip title={item.text} placement="right">
+                <ListItemIcon>{item.Icon && <item.Icon />}</ListItemIcon>
+              </Tooltip>
+
               <ListItemText primary={item.text.toUpperCase()} />
             </ListItem>
           ))}
