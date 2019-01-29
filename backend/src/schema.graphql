@@ -25,6 +25,8 @@ type Query {
     orderBy: UserOrderByInput
   ): [User!]!
   user(id: ID!): UserOutput!
+  contestVotes(id: ID): [VotesCount]!
+  projectWhichUserVotesInContest(id: ID): ID
 }
 
 type Mutation {
@@ -49,9 +51,16 @@ type Mutation {
   updateProject(data: CreateProjectInput!, where: ID): Project!
   addProjectsToContest(contestId: ID!, projectName: String!): Contest
   login(data: LoginUserInput!): AuthPayload!
+  vote(data: VoteInput): Vote!
+  removeVote(data: VoteInput): Long
 }
 
 scalar DateTime
+
+input VoteInput {
+  contestId: ID!
+  projectId: ID!
+}
 
 input CreateUserInput {
   email: String!
@@ -99,6 +108,11 @@ input CreateOperatorInput {
 input CreateAdminInput {
   email: String!
   password: String!
+}
+
+type VotesCount {
+  projectId: ID!
+  count: Int!
 }
 
 type AuthPayload {
@@ -181,6 +195,7 @@ type Project {
   description: String
   image: String
   contests: [Contest!]
+  votes: [Vote!]
   isPublished: Boolean!
 }
 

@@ -176,6 +176,55 @@ const Mutation = {
       token,
       user
     };
+  },
+
+  async removeVote(_, { data: { contestId, projectId } }, context: Context) {
+    return allowUser(context).mutation.deleteManyVotes({
+      where: {
+        user: {
+          id: context.user.id
+        },
+        contest: {
+          id: contestId
+        },
+        project: {
+          id: projectId
+        }
+      }
+    });
+  },
+
+  async vote(_, { data: { contestId, projectId } }, context: Context) {
+    await allowUser(context).mutation.deleteManyVotes({
+      where: {
+        user: {
+          id: context.user.id
+        },
+        contest: {
+          id: contestId
+        }
+      }
+    });
+
+    return allowUser(context).mutation.createVote({
+      data: {
+        user: {
+          connect: {
+            id: context.user.id
+          }
+        },
+        contest: {
+          connect: {
+            id: contestId
+          }
+        },
+        project: {
+          connect: {
+            id: projectId
+          }
+        }
+      }
+    });
   }
 };
 
