@@ -24,6 +24,8 @@ import ContestsForm from '../Contests/form';
 import Projects from '../Projects';
 import ProjectsForm from '../Projects/form';
 import Scores from '../Scores';
+import Users from '../Users';
+import UsersForm from '../Users/form';
 
 function Layout(props) {
   const [open, setOpen] = useState(false);
@@ -138,6 +140,8 @@ function Layout(props) {
         <Route path="/app/contestForm" component={ContestsForm} />
         <Route path="/app/projectForm" component={ProjectsForm} />
         <Route path="/app/scores" component={Scores} />
+        <Route path="/app/users" component={Users} />
+        <Route path="/app/userForm" component={UsersForm} />
       </main>
     </div>
   );

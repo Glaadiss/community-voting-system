@@ -56,9 +56,9 @@ scalar DateTime
 input CreateUserInput {
   email: String!
   password: String!
-  name: String!
-  postalCode: String!
-  pesel: String!
+  name: String
+  postalCode: String
+  pesel: String
 }
 
 input UpdateUserInput {
@@ -150,9 +150,9 @@ type User {
   id: ID!
   email: String!
   role: RoleType!
-  name: String!
-  postalCode: String!
-  pesel: String!
+  name: String
+  postalCode: String
+  pesel: String
   passwordHash: String!
 }
 

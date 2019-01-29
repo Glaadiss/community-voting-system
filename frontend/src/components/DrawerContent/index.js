@@ -10,6 +10,8 @@ import NoteAdd from '@material-ui/icons/NoteAdd';
 import LibraryAdd from '@material-ui/icons/LibraryAdd';
 import DonutSmall from '@material-ui/icons/DonutSmall';
 import EventNote from '@material-ui/icons/EventNote';
+import SupervisorAccount from '@material-ui/icons/SupervisorAccount';
+import GroupAdd from '@material-ui/icons/GroupAdd';
 import { AuthContext } from '../../App';
 
 export default function DrawerContent() {
@@ -84,6 +86,16 @@ function getContentByRole(role) {
           text: 'Generuj raport',
           link: '/app/generateRaport',
           Icon: EventNote,
+        },
+        {
+          text: 'Lista Użytkowników',
+          link: '/app/users',
+          Icon: SupervisorAccount,
+        },
+        {
+          text: 'Dodaj Użytkownika',
+          link: '/app/userForm',
+          Icon: GroupAdd,
         },
       ];
     default:
