@@ -22,8 +22,11 @@ const styles = theme => ({
 });
 
 function ContestTable(props) {
-  const { classes, rows } = props;
-
+  const { classes, rows, match } = props;
+  const {
+    params: { id },
+  } = match;
+  const isVote = rows[0] && rows[0].votes;
   return (
     <Paper className={classes.root}>
       <Table className={classes.table}>
@@ -33,6 +36,7 @@ function ContestTable(props) {
             <TableCell>Title</TableCell>
             <TableCell>Description</TableCell>
             <TableCell>Published?</TableCell>
+            {isVote && <TableCell>Votes</TableCell>}
             <TableCell align="right" />
           </TableRow>
         </TableHead>
@@ -59,13 +63,22 @@ function ContestTable(props) {
                   <span style={{ color: 'red', fontSize: 20 }}>{'\u2716'}</span>
                 )}
               </TableCell>
+              {isVote && (
+                <TableCell component="th" scope="row">
+                  <strong>{row.votes.length}</strong>
+                </TableCell>
+              )}
               <TableCell align="right">
                 <Button
                   variant="contained"
                   color="primary"
-                  component={prop => (
-                    <Link to={`/app/contests/${row.id}`} {...prop} />
-                  )}
+                  component={prop =>
+                    id ? (
+                      <Link to={`/app/contests/${id}/${row.id}`} {...prop} />
+                    ) : (
+                      <Link to={`/app/projects/${row.id}`} {...prop} />
+                    )
+                  }
                 >
                   Show
                 </Button>
@@ -80,6 +93,7 @@ function ContestTable(props) {
 
 ContestTable.propTypes = {
   classes: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
   rows: PropTypes.array.isRequired,
 };
 

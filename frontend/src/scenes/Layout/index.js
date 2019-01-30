@@ -26,6 +26,8 @@ import ProjectsForm from '../Projects/form';
 import Scores from '../Scores';
 import Users from '../Users';
 import UsersForm from '../Users/form';
+import ContestProjects from '../Contests/contestProjects';
+import ShowProject from '../Projects/show';
 
 function Layout(props) {
   const [open, setOpen] = useState(false);
@@ -135,7 +137,9 @@ function Layout(props) {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <Route path="/app/contests" component={Contests} />
+        <Route path="/app/contests/:id/:projectId" component={ShowProject} />
+        <Route path="/app/contests/:id" exact component={ContestProjects} />
+        <Route path="/app/contests" exact component={Contests} />
         <Route path="/app/projects" component={Projects} />
         <Route path="/app/contestForm" component={ContestsForm} />
         <Route path="/app/projectForm" component={ProjectsForm} />

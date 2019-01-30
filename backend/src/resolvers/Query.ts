@@ -64,7 +64,7 @@ const Query: any = {
   async projectWhichUserVotesInContest(_, args, context: Context, info) {
     const vote = await allowUser(context).query.votes({
       where: {
-        contests_some: {
+        contest: {
           id: args.id
         },
         user: {
@@ -75,13 +75,13 @@ const Query: any = {
 
     const projects = await allowUser(context).query.projects({
       where: {
-        vote: {
+        votes_some: {
           id: vote.id
         }
       }
     });
 
-    return projects[0];
+    return projects[0] ? projects[0].id : null;
   },
 
   async contest(_, args, context: Context, info) {
@@ -91,13 +91,13 @@ const Query: any = {
       }
     };
     const contest = await allowUser(context).query.contest(opArgs, info);
-    if (!isOperatorAllowed(context) && !contest.isPublished) {
-      throw new BadData({
-        data: {
-          additional_info: contestNotFoundErrorMessage
-        }
-      });
-    }
+    // if (!isOperatorAllowed(context) && !contest.isPublished) {
+    //   throw new BadData({
+    //     data: {
+    //       additional_info: contestNotFoundErrorMessage
+    //     }
+    //   });
+    // }
     return contest;
   },
   users(_, args, context: Context, info) {

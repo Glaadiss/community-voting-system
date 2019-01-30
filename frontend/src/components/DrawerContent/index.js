@@ -45,7 +45,7 @@ function getContentByRole(role) {
       return [
         {
           link: '/app/contests',
-          text: 'Zobacz listę projektów',
+          text: 'Zobacz listę konkursów',
           Icon: Ballot,
         },
         { text: 'Wyniki konkursów', link: '/app/scores', Icon: DonutSmall },
