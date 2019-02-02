@@ -28,6 +28,7 @@ import Users from '../Users';
 import UsersForm from '../Users/form';
 import ContestProjects from '../Contests/contestProjects';
 import ShowProject from '../Projects/show';
+import Dashboard from '../Dashboard';
 
 function Layout(props) {
   const [open, setOpen] = useState(false);
@@ -146,6 +147,7 @@ function Layout(props) {
         <Route path="/app/scores" component={Scores} />
         <Route path="/app/users" component={Users} />
         <Route path="/app/userForm" component={UsersForm} />
+        <Route path="/app" exact component={Dashboard} />
       </main>
     </div>
   );

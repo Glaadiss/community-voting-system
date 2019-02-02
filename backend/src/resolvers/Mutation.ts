@@ -5,6 +5,7 @@ import { allowAdmin, allowOperator, sign, allowUser } from '../services/auth';
 import { createAccount } from '../utils/createAccount';
 import { updateAccount } from '../utils/updateAccount';
 import { Context, ROLE } from '../utils/customTypes';
+import { saveDocument } from '../services/file';
 
 const invalidCredentialsMsg = 'Invalid credentials.';
 const peselExistsMsg = 'User with this pesel number already exists.';
@@ -23,7 +24,14 @@ const Mutation = {
         }
       };
     }
-    return allowOperator(context).mutation.createProject(input, info);
+    const project = await allowOperator(context).mutation.createProject(
+      input,
+      info
+    );
+    if (args.data.image) {
+      saveDocument(args.data.image, project.id);
+    }
+    return project;
   },
   async createContest(_, args, context: Context, info) {
     const input = {

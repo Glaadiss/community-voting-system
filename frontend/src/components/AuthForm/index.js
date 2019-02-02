@@ -43,70 +43,82 @@ function SignIn(props) {
   }
 
   return (
-    <main className={classes.main}>
-      <CssBaseline />
-      <Snackbar
-        open={!!message}
-        message={message}
-        setSnackbarMessage={setSnackbarMessage}
-      />
-      <Paper className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          {title}
-        </Typography>
-        <Mutation onError={setSnackbarMessage}>
-          {submit => (
-            <form className={classes.form} onSubmit={handleSubmit(submit)}>
-              <FormControl margin="normal" required fullWidth>
-                <InputLabel htmlFor="email">Email</InputLabel>
-                <Input
-                  name="email"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  autoComplete="email"
-                  autoFocus
+    <div
+      style={{
+        position: 'absolute',
+        height: '100vh',
+        width: '100%',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        backgroundImage: 'url(/login.jpg)',
+      }}
+    >
+      <h1 style={{ color: '#fff', textAlign: 'center' }}> Projekty Gminne </h1>
+      <main className={classes.main}>
+        <CssBaseline />
+        <Snackbar
+          open={!!message}
+          message={message}
+          setSnackbarMessage={setSnackbarMessage}
+        />
+        <Paper className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            {title}
+          </Typography>
+          <Mutation onError={setSnackbarMessage}>
+            {submit => (
+              <form className={classes.form} onSubmit={handleSubmit(submit)}>
+                <FormControl margin="normal" required fullWidth>
+                  <InputLabel htmlFor="email">Email</InputLabel>
+                  <Input
+                    name="email"
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    autoComplete="email"
+                    autoFocus
+                  />
+                </FormControl>
+                <FormControl margin="normal" required fullWidth>
+                  <InputLabel htmlFor="password">Hasło</InputLabel>
+                  <Input
+                    name="password"
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    type="password"
+                    autoComplete="current-password"
+                  />
+                </FormControl>
+                <FormControlLabel
+                  control={<Checkbox value="remember" color="primary" />}
+                  label="Pamiętaj mnie"
                 />
-              </FormControl>
-              <FormControl margin="normal" required fullWidth>
-                <InputLabel htmlFor="password">Hasło</InputLabel>
-                <Input
-                  name="password"
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  type="password"
-                  autoComplete="current-password"
-                />
-              </FormControl>
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Pamiętaj mnie"
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-              >
-                {firstAction}
-              </Button>
-              <Button
-                component={prop => <Link {...prop} to={secondActionLink} />}
-                fullWidth
-                variant="contained"
-                color="secondary"
-                className={classes.submit}
-              >
-                {secondAction}
-              </Button>
-            </form>
-          )}
-        </Mutation>
-      </Paper>
-    </main>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                >
+                  {firstAction}
+                </Button>
+                <Button
+                  component={prop => <Link {...prop} to={secondActionLink} />}
+                  fullWidth
+                  variant="contained"
+                  color="secondary"
+                  className={classes.submit}
+                >
+                  {secondAction}
+                </Button>
+              </form>
+            )}
+          </Mutation>
+        </Paper>
+      </main>
+    </div>
   );
 }
 

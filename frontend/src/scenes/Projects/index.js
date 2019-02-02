@@ -16,7 +16,7 @@ export const GET_PROJECTS = gql`
   }
 `;
 
-function Projects() {
+function Projects(props) {
   return (
     <AuthContext.Consumer>
       {context => (
@@ -24,7 +24,7 @@ function Projects() {
           {({ loading, error, data }) => {
             if (loading || !data) return null;
             if (error) return error.message;
-            return <ProjectTable rows={data.projects} />;
+            return <ProjectTable {...props} rows={data.projects} />;
           }}
         </Query>
       )}

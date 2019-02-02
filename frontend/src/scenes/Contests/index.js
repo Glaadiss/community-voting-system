@@ -18,7 +18,7 @@ const GET_CONTESTS = gql`
   }
 `;
 
-function Contests() {
+function Contests(props) {
   return (
     <AuthContext.Consumer>
       {context => (
@@ -26,7 +26,7 @@ function Contests() {
           {({ loading, error, data }) => {
             if (loading || !data) return null;
             if (error) return error.message;
-            return <ContestTable rows={data.contests} />;
+            return <ContestTable {...props} rows={data.contests} />;
           }}
         </Query>
       )}

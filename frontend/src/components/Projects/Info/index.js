@@ -17,7 +17,7 @@ const styles = theme => ({
 
 function Info(props) {
   const { classes } = props;
-  const { title, description, image, Button } = props;
+  const { title, description, Button, Doc } = props;
   return (
     <div>
       <Paper className={classes.root} elevation={1}>
@@ -26,7 +26,7 @@ function Info(props) {
         </Typography>
         <br />
         <Typography component="p">{description}</Typography>
-        {image && <img src={image} width={300} alt={title} />}
+        {Doc}
         <br />
         {Button}
       </Paper>
@@ -35,6 +35,8 @@ function Info(props) {
 }
 
 Info.propTypes = {
+  Doc: PropTypes.node.isRequired,
+  Button: PropTypes.node.isRequired,
   classes: PropTypes.object.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,

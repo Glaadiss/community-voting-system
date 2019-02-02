@@ -5,6 +5,7 @@ import { Query, Mutation } from 'react-apollo';
 import { Button } from '@material-ui/core';
 import { AuthContext } from '../../App';
 import Info from '../../components/Projects/Info';
+import PdfViewer from './PdfViewer';
 
 const GET_PROJECT = id => gql`
 {
@@ -57,6 +58,7 @@ function ShowProject(props) {
               <Info
                 {...project}
                 Button={<VoteButton id={id} projectId={projectId} />}
+                Doc={<PdfViewer url={getPdfUrl(projectId)} />}
               />
             );
           }}
@@ -84,20 +86,32 @@ function VoteButton(props) {
         if (loading || !data) return null;
         if (error) return error.message;
         const { projectWhichUserVotesInContest } = data;
-        console.log(projectId);
-        console.log(projectWhichUserVotesInContest);
         if (projectWhichUserVotesInContest === projectId) {
           return (
             <Mutation mutation={REMOVE_VOTE}>
               {submit => (
-                <Button onClick={handleSubmit(submit)}> Remove Vote </Button>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={handleSubmit(submit)}
+                >
+                  Remove Vote
+                </Button>
               )}
             </Mutation>
           );
         }
         return (
           <Mutation mutation={VOTE}>
-            {submit => <Button onClick={handleSubmit(submit)}> Vote </Button>}
+            {submit => (
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleSubmit(submit)}
+              >
+                Vote
+              </Button>
+            )}
           </Mutation>
         );
       }}
@@ -115,3 +129,7 @@ VoteButton.propTypes = {
 };
 
 export default ShowProject;
+
+function getPdfUrl(projectId) {
+  return `http://localhost:4000/pdfs/${projectId}.pdf`;
+}
