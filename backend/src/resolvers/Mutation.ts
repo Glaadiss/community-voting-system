@@ -24,6 +24,7 @@ const Mutation = {
         }
       };
     }
+    input.data.image = null;
     const project = await allowOperator(context).mutation.createProject(
       input,
       info
