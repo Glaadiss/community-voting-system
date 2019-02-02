@@ -57,7 +57,9 @@ function ShowProject(props) {
             return (
               <Info
                 {...project}
-                Button={<VoteButton id={id} projectId={projectId} />}
+                Button={
+                  id ? <VoteButton id={id} projectId={projectId} /> : <div />
+                }
                 Doc={<PdfViewer url={getPdfUrl(projectId)} />}
               />
             );
@@ -81,7 +83,7 @@ function VoteButton(props) {
     };
   }
   return (
-    <Query query={CHECK_VOTE(id)} pollInterval={20000}>
+    <Query query={CHECK_VOTE(id)} pollInterval={1000}>
       {({ loading, error, data }) => {
         if (loading || !data) return null;
         if (error) return error.message;
@@ -91,6 +93,7 @@ function VoteButton(props) {
             <Mutation mutation={REMOVE_VOTE}>
               {submit => (
                 <Button
+                  size="large"
                   variant="contained"
                   color="secondary"
                   onClick={handleSubmit(submit)}
@@ -105,6 +108,7 @@ function VoteButton(props) {
           <Mutation mutation={VOTE}>
             {submit => (
               <Button
+                size="large"
                 variant="contained"
                 color="primary"
                 onClick={handleSubmit(submit)}

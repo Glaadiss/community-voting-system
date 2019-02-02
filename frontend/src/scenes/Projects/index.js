@@ -20,7 +20,7 @@ function Projects(props) {
   return (
     <AuthContext.Consumer>
       {context => (
-        <Query query={GET_PROJECTS} pollInterval={2000}>
+        <Query query={GET_PROJECTS} pollInterval={1000}>
           {({ loading, error, data }) => {
             if (loading || !data) return null;
             if (error) return error.message;

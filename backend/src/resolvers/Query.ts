@@ -73,7 +73,6 @@ const Query: any = {
       }
     });
 
-    console.log(vote);
     const projects = await allowUser(context).query.projects({
       where: {
         votes_some: {
@@ -81,7 +80,6 @@ const Query: any = {
         }
       }
     });
-    console.log(projects);
     return projects[0] ? projects[0].id : null;
   },
 

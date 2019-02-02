@@ -26,9 +26,12 @@ function Info(props) {
         </Typography>
         <br />
         <Typography component="p">{description}</Typography>
-        {Doc}
         <br />
         {Button}
+        <br />
+        <br />
+        {Doc}
+        <br />
       </Paper>
     </div>
   );

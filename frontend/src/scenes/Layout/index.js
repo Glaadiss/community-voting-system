@@ -140,8 +140,9 @@ function Layout(props) {
         <div className={classes.toolbar} />
         <Route path="/app/contests/:id/:projectId" component={ShowProject} />
         <Route path="/app/contests/:id" exact component={ContestProjects} />
+        <Route path="/app/projects/:projectId" exact component={ShowProject} />
         <Route path="/app/contests" exact component={Contests} />
-        <Route path="/app/projects" component={Projects} />
+        <Route path="/app/projects" exact component={Projects} />
         <Route path="/app/contestForm" component={ContestsForm} />
         <Route path="/app/projectForm" component={ProjectsForm} />
         <Route path="/app/scores" component={Scores} />
