@@ -40,7 +40,6 @@ Info.propTypes = {
   classes: PropTypes.object.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
 };
 
 export default withStyles(styles)(Info);

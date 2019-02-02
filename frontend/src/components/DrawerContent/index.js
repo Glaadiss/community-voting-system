@@ -65,11 +65,6 @@ function getContentByRole(role) {
           Icon: LibraryAdd,
         },
         { text: 'Wyniki konkursów', link: '/app/scores', Icon: DonutSmall },
-        {
-          text: 'Generuj raport',
-          link: '/app/generateRaport',
-          Icon: EventNote,
-        },
       ];
     case 'admin':
       return [
@@ -86,11 +81,6 @@ function getContentByRole(role) {
           Icon: LibraryAdd,
         },
         { text: 'Wyniki konkursów', link: '/app/scores', Icon: DonutSmall },
-        {
-          text: 'Generuj raport',
-          link: '/app/generateRaport',
-          Icon: EventNote,
-        },
         {
           text: 'Lista Użytkowników',
           link: '/app/users',

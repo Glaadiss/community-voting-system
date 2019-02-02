@@ -18,6 +18,7 @@
     "apollo-errors": "^1.9.0",
     "bcrypt": "^3.0.2",
     "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
     "express": "^4.16.4",
     "graphql-cli": "^3.0.4",
     "graphql-import": "^0.7.1",
