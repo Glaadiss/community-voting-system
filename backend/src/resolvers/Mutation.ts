@@ -5,6 +5,7 @@ import { allowAdmin, allowOperator, sign, allowUser } from '../services/auth';
 import { createAccount } from '../utils/createAccount';
 import { updateAccount } from '../utils/updateAccount';
 import { Context, ROLE } from '../utils/customTypes';
+import { saveDocument } from '../services/file';
 
 const invalidCredentialsMsg = 'Invalid credentials.';
 const peselExistsMsg = 'User with this pesel number already exists.';
@@ -23,7 +24,15 @@ const Mutation = {
         }
       };
     }
-    return allowOperator(context).mutation.createProject(input, info);
+    input.data.image = null;
+    const project = await allowOperator(context).mutation.createProject(
+      input,
+      info
+    );
+    if (args.data.image) {
+      saveDocument(args.data.image, project.id);
+    }
+    return project;
   },
   async createContest(_, args, context: Context, info) {
     const input = {
@@ -176,6 +185,55 @@ const Mutation = {
       token,
       user
     };
+  },
+
+  async removeVote(_, { data: { contestId, projectId } }, context: Context) {
+    return allowUser(context).mutation.deleteManyVotes({
+      where: {
+        user: {
+          id: context.user.id
+        },
+        contest: {
+          id: contestId
+        },
+        project: {
+          id: projectId
+        }
+      }
+    });
+  },
+
+  async vote(_, { data: { contestId, projectId } }, context: Context) {
+    await allowUser(context).mutation.deleteManyVotes({
+      where: {
+        user: {
+          id: context.user.id
+        },
+        contest: {
+          id: contestId
+        }
+      }
+    });
+
+    return allowUser(context).mutation.createVote({
+      data: {
+        user: {
+          connect: {
+            id: context.user.id
+          }
+        },
+        contest: {
+          connect: {
+            id: contestId
+          }
+        },
+        project: {
+          connect: {
+            id: projectId
+          }
+        }
+      }
+    });
   }
 };
 

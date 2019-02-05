@@ -23,6 +23,12 @@ import DrawerContent from '../../components/DrawerContent';
 import ContestsForm from '../Contests/form';
 import Projects from '../Projects';
 import ProjectsForm from '../Projects/form';
+import Scores from '../Scores';
+import Users from '../Users';
+import UsersForm from '../Users/form';
+import ContestProjects from '../Contests/contestProjects';
+import ShowProject from '../Projects/show';
+import Dashboard from '../Dashboard';
 
 function Layout(props) {
   const [open, setOpen] = useState(false);
@@ -132,10 +138,17 @@ function Layout(props) {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <Route path="/app/contests" component={Contests} />
-        <Route path="/app/projects" component={Projects} />
+        <Route path="/app/contests/:id/:projectId" component={ShowProject} />
+        <Route path="/app/contests/:id" exact component={ContestProjects} />
+        <Route path="/app/projects/:projectId" exact component={ShowProject} />
+        <Route path="/app/contests" exact component={Contests} />
+        <Route path="/app/projects" exact component={Projects} />
         <Route path="/app/contestForm" component={ContestsForm} />
         <Route path="/app/projectForm" component={ProjectsForm} />
+        <Route path="/app/scores" component={Scores} />
+        <Route path="/app/users" component={Users} />
+        <Route path="/app/userForm" component={UsersForm} />
+        <Route path="/app" exact component={Dashboard} />
       </main>
     </div>
   );

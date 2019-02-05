@@ -2,29 +2,30 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import { AuthContext } from '../../App';
-import ProjectTable from '../../components/Projects/Table';
+import UsersTable from '../../components/Users/Table';
 
-export const GET_PROJECTS = gql`
+const GET_USERS = gql`
   {
-    projects {
+    users {
       id
-      title
-      image
-      description
-      isPublished
+      email
+      role
+      name
+      pesel
+      postalCode
     }
   }
 `;
 
-function Projects(props) {
+function Users() {
   return (
     <AuthContext.Consumer>
       {context => (
-        <Query query={GET_PROJECTS} pollInterval={1000}>
+        <Query query={GET_USERS} pollInterval={2000}>
           {({ loading, error, data }) => {
             if (loading || !data) return null;
             if (error) return error.message;
-            return <ProjectTable {...props} rows={data.projects} />;
+            return <UsersTable rows={data.users} />;
           }}
         </Query>
       )}
@@ -32,4 +33,4 @@ function Projects(props) {
   );
 }
 
-export default Projects;
+export default Users;

@@ -21,20 +21,18 @@ const styles = theme => ({
   },
 });
 
-function ContestTable(props) {
+function UsersTable(props) {
   const { classes, rows } = props;
   return (
     <Paper className={classes.root}>
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
-            <TableCell>Photo</TableCell>
-
-            <TableCell>Title</TableCell>
-            <TableCell>Description</TableCell>
-            <TableCell>Published?</TableCell>
-            <TableCell>Start</TableCell>
-            <TableCell>End</TableCell>
+            <TableCell>Email</TableCell>
+            <TableCell>Role</TableCell>
+            <TableCell>Name</TableCell>
+            <TableCell>Pesel</TableCell>
+            <TableCell>Postal Code</TableCell>
             <TableCell align="right" />
           </TableRow>
         </TableHead>
@@ -42,38 +40,26 @@ function ContestTable(props) {
           {rows.map(row => (
             <TableRow key={row.id}>
               <TableCell component="th" scope="row">
-                {row.image && (
-                  <img src={row.image} width={100} height={100} alt="Content" />
-                )}
+                <strong>{row.email}</strong>
               </TableCell>
               <TableCell component="th" scope="row">
-                <strong>{row.title}</strong>
+                <strong>{row.role}</strong>
               </TableCell>
               <TableCell component="th" scope="row">
-                <strong>{row.description}</strong>
+                <strong>{row.name}</strong>
               </TableCell>
               <TableCell component="th" scope="row">
-                {row.isPublished ? (
-                  <strong style={{ color: 'green', fontSize: 20 }}>
-                    {'\u2713'}
-                  </strong>
-                ) : (
-                  <span style={{ color: 'red', fontSize: 20 }}>{'\u2716'}</span>
-                )}
+                <strong>{row.pesel}</strong>
               </TableCell>
               <TableCell component="th" scope="row">
-                <strong>{toLocal(row.startDate)}</strong>
-              </TableCell>
-
-              <TableCell component="th" scope="row">
-                <strong>{toLocal(row.endDate)}</strong>
+                <strong>{row.postalCode}</strong>
               </TableCell>
               <TableCell align="right">
                 <Button
                   variant="contained"
                   color="primary"
                   component={prop => (
-                    <Link to={`/app/contests/${row.id}`} {...prop} />
+                    <Link to={`/app/users/${row.id}`} {...prop} />
                   )}
                 >
                   Show
@@ -87,18 +73,9 @@ function ContestTable(props) {
   );
 }
 
-ContestTable.propTypes = {
+UsersTable.propTypes = {
   classes: PropTypes.object.isRequired,
   rows: PropTypes.array.isRequired,
 };
 
-function toLocal(date) {
-  try {
-    const dateObject = new Date(date);
-    return dateObject.toLocaleString();
-  } catch (error) {
-    return 'qwe';
-  }
-}
-
-export default withStyles(styles)(ContestTable);
+export default withStyles(styles)(UsersTable);
